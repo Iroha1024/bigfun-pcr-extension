@@ -8,6 +8,7 @@
     "fix": "prettier --write \"src/**/*.{js,vue}\""
   },
   "dependencies": {
+    "ant-design-vue": "^1.6.5",
     "axios": "^0.20.0",
     "echarts": "^4.9.0",
     "vue": "^2.6.11",

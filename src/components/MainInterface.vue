@@ -1,43 +1,17 @@
 <template>
-    <div class="main-interface">
-
-    </div>
+    <a-modal centered :footer="null" :visible="isVisible" width="auto" @cancel="toggleModal">
+        <boss-data-chart></boss-data-chart>
+    </a-modal>
 </template>
 
 <script>
-import { getGuildLog, getDateReport, getBossReport } from '../api/request'
+import BossDataChart from './BossDataChart'
 
 export default {
-    async created() {
-        await this.getGuildLogInfo()
-        await this.getBossReportInfo()
-        // await this.getDateReportInfo()
+    components: {
+        BossDataChart,
     },
-    data() {
-        return {
-            guildLog: {
-                day_list: []
-            },
-            boss_list: []
-        }
-    },
-    methods: {
-        async getGuildLogInfo() {
-            const { data: { data: { day_list } } } = await getGuildLog()
-            this.guildLog.day_list = day_list
-            console.log(this.guildLog.day_list)
-        },
-        async getDateReportInfo() {
-            for (const date of this.guildLog.day_list) {
-                const { data } = await getDateReport(date)
-                console.log(data)
-            }
-        },
-        async getBossReportInfo() {
-            const { data: { data: { boss_list } } } = await getBossReport()
-            this.boss_list = boss_list
-        }
-    },
+    props: ['isVisible', 'toggleModal'],
 }
 </script>
 

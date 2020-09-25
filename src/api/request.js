@@ -20,7 +20,6 @@ export const getDateReport = (date) => {
     return instance.get(dateReport)
 }
 
-
 /**
  * boss 报表
  *

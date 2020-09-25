@@ -1,7 +1,7 @@
 <template>
     <div id="bigfun-pcr-extension">
-        <img :src="url" alt="extension button" class="button" @click="" />
-        <main-interface></main-interface>
+        <img :src="url" alt="extension button" class="button" @click="toggleModal" />
+        <main-interface :isVisible="isVisible" :toggleModal="toggleModal"></main-interface>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
     },
     data() {
         return {
-            isShow: false
+            isVisible: false,
         }
     },
     computed: {
@@ -23,9 +23,9 @@ export default {
         },
     },
     methods: {
-        toggle() {
-            this.isShow = !this.isShow
-        }
+        toggleModal() {
+            this.isVisible = !this.isVisible
+        },
     },
 }
 </script>
