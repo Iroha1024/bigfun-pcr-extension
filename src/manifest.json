@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Bigfun pcr extension",
+  "description": "利用bigfun pcr数据，提供数据图表功能",
+  "icons": {
+    "128": "icons/kyaru.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.bigfun.cn/tools/pcrteam/*"],
+      "js": ["js/content-script.js"]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ],
+    "persistent": false
+  },
+  "web_accessible_resources": [
+    "icons/*.png"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "bigfun-pcr-extension",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service build --mode development --watch",
+    "build": "vue-cli-service build",
+    "fix": "prettier --write \"src/**/*.{js,vue}\""
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "echarts": "^4.9.0",
+    "vue": "^2.6.11",
+    "vue-echarts": "^5.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "~4.5.0",
+    "node-sass": "^4.14.1",
+    "prettier": "^2.1.2",
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-browser-extension": "latest",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
