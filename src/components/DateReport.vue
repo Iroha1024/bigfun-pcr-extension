@@ -1,7 +1,7 @@
 <template>
-    <div class="boss-data-chart">
+    <div>
         <a-select :value="currentDate" style="width: 120px" @change="handleChange">
-            <a-select-option :value="date" v-for="(date, index) of guildLog.dayList" :key="index">
+            <a-select-option :value="date" v-for="(date, index) of guildLog.dateList" :key="index">
                 {{ date }}
             </a-select-option>
         </a-select>
@@ -10,21 +10,19 @@
 </template>
 
 <script>
-import { getGuildLog, getDateReport, getBossReport } from '../api/request'
+import { getDateReport, getBossReport } from '../api/request'
+
+import { mapState } from 'vuex'
 
 export default {
     async created() {
-        await this.getGuildLogInfo()
-        this.setCurrentDate()
         await this.getBossReportInfo()
+        this.setCurrentDate()
         await this.getDateReportInfo()
         this.setOptions()
     },
     data() {
         return {
-            guildLog: {
-                dayList: [],
-            },
             bossList: [],
             currentDate: '',
             dateReport: new Map(),
@@ -35,24 +33,27 @@ export default {
         userList() {
             return this.dateReport.get(this.currentDate).map((item) => item.name)
         },
+        ...mapState({
+            guildLog: (state) => state.guildLog,
+        }),
     },
     methods: {
-        async getGuildLogInfo() {
+        async getBossReportInfo() {
             const {
                 data: {
-                    data: { day_list },
+                    data: { boss_list },
                 },
-            } = await getGuildLog()
-            this.guildLog.dayList = day_list
-            // console.log(this.guildLog.dayList)
+            } = await getBossReport()
+            this.bossList = boss_list
+            // console.log(this.bossList.map((item) => item.boss_name))
         },
         setCurrentDate() {
             const date = this.transformDate(new Date())
-            if (this.guildLog.dayList.includes(date)) {
+            if (this.guildLog.dateList.includes(date)) {
                 this.currentDate = date
             } else {
                 const maxDate = new Date(
-                    Math.max(...this.guildLog.dayList.map((item) => new Date(item)))
+                    Math.max(...this.guildLog.dateList.map((item) => new Date(item)))
                 )
                 this.currentDate = this.transformDate(maxDate)
             }
@@ -74,18 +75,13 @@ export default {
             this.dateReport.set(this.currentDate, data)
             // console.log(this.dateReport)
         },
-        async getBossReportInfo() {
-            const {
-                data: {
-                    data: { boss_list },
-                },
-            } = await getBossReport()
-            this.bossList = boss_list
-            // console.log(this.bossList.map((item) => item.boss_name))
-        },
         async handleChange(value) {
             this.currentDate = value
-            if (!this.dateReport.has(value)) {
+            const MilliSecondsPerDay = 24 * 60 * 60 * 1000
+            if (
+                !this.dateReport.has(this.currentDate) ||
+                new Date() - new Date(this.currentDate) < MilliSecondsPerDay
+            ) {
                 await this.getDateReportInfo()
             }
             this.setOptions()

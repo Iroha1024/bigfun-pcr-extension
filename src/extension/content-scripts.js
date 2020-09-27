@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from '../App.vue'
 
+import store from '../store/'
+
 import '../plugins/ant-design-vue'
 import '../plugins/vue-echarts'
 
@@ -11,5 +13,6 @@ document.body.appendChild(div)
 
 new Vue({
     el: div,
+    store,
     render: (h) => h(App),
 })
