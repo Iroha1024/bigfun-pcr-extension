@@ -3,12 +3,12 @@ module.exports = {
     browserExtension: {
       componentOptions: {
         background: {
-          entry: 'src/background.js'
+          entry: 'src/extension/background.js'
         },
         contentScripts: {
           entries: {
             'content-script': [
-              'src/content-scripts/content-script.js'
+              'src/extension/content-scripts.js'
             ]
           }
         }

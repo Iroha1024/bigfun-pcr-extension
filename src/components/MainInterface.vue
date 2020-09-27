@@ -1,15 +1,15 @@
 <template>
     <a-modal centered :footer="null" :visible="isVisible" width="auto" @cancel="toggleModal">
-        <boss-data-chart></boss-data-chart>
+        <date-report></date-report>
     </a-modal>
 </template>
 
 <script>
-import BossDataChart from './BossDataChart'
+import DateReport from './DateReport'
 
 export default {
     components: {
-        BossDataChart,
+        DateReport,
     },
     props: ['isVisible', 'toggleModal'],
 }

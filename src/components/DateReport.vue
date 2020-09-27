@@ -68,12 +68,10 @@ export default {
             return `${year}-${month}-${day}`
         },
         async getDateReportInfo() {
-            for (const date of this.guildLog.dayList) {
-                const {
-                    data: { data },
-                } = await getDateReport(date)
-                this.dateReport.set(date, data)
-            }
+            const {
+                data: { data },
+            } = await getDateReport(this.currentDate)
+            this.dateReport.set(this.currentDate, data)
             // console.log(this.dateReport)
         },
         async getBossReportInfo() {
@@ -85,8 +83,11 @@ export default {
             this.bossList = boss_list
             // console.log(this.bossList.map((item) => item.boss_name))
         },
-        handleChange(value) {
+        async handleChange(value) {
             this.currentDate = value
+            if (!this.dateReport.has(value)) {
+                await this.getDateReportInfo()
+            }
             this.setOptions()
         },
         setOptions() {
