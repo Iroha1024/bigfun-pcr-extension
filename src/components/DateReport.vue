@@ -24,7 +24,6 @@ export default {
     },
     data() {
         return {
-            bossList: [],
             currentDate: '',
             options: null,
         }
@@ -35,6 +34,7 @@ export default {
         },
         ...mapState({
             guildLog: (state) => state.guildLog,
+            bossReport: (state) => state.bossReport,
         }),
     },
     methods: {
@@ -44,8 +44,8 @@ export default {
                     data: { boss_list },
                 },
             } = await getBossReport()
-            this.bossList = boss_list
-            // console.log(this.bossList.map((item) => item.boss_name))
+            this.$store.commit('bossReport/setBossList', boss_list)
+            // console.log(this.bossReport.bossList.map((item) => item.boss_name))
         },
         setCurrentDate() {
             const date = transformDate(new Date())
@@ -75,7 +75,7 @@ export default {
             this.setOptions()
         },
         setOptions() {
-            const series = this.bossList.map(({ boss_name }) => ({
+            const series = this.bossReport.bossList.map(({ boss_name }) => ({
                 name: boss_name,
                 type: 'bar',
                 data: [],
