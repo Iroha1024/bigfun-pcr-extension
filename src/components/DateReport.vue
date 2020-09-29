@@ -5,12 +5,13 @@
                 {{ date }}
             </a-select-option>
         </a-select>
-        <v-chart :options="options" style="width: 900px; height: 500px" />
+        <v-chart :options="options" class="chart" />
     </div>
 </template>
 
 <script>
 import { getDateReport, getBossReport } from '../api/request'
+import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/'
 
 import { mapState } from 'vuex'
 
@@ -25,13 +26,12 @@ export default {
         return {
             bossList: [],
             currentDate: '',
-            dateReport: new Map(),
             options: null,
         }
     },
     computed: {
         userList() {
-            return this.dateReport.get(this.currentDate).map((item) => item.name)
+            return this.guildLog.dateReport.get(this.currentDate).map((item) => item.name)
         },
         ...mapState({
             guildLog: (state) => state.guildLog,
@@ -48,39 +48,27 @@ export default {
             // console.log(this.bossList.map((item) => item.boss_name))
         },
         setCurrentDate() {
-            const date = this.transformDate(new Date())
+            const date = transformDate(new Date())
             if (this.guildLog.dateList.includes(date)) {
                 this.currentDate = date
             } else {
-                const maxDate = new Date(
-                    Math.max(...this.guildLog.dateList.map((item) => new Date(item)))
-                )
-                this.currentDate = this.transformDate(maxDate)
+                const maxDate = getMaxDate(this.guildLog.dateList)
+                this.currentDate = transformDate(maxDate)
             }
             // console.log(this.currentDate);
-        },
-        transformDate(date) {
-            const year = date.getFullYear()
-            let month = date.getMonth() + 1
-            if (month < 10) {
-                month = '0' + month
-            }
-            const day = date.getDate()
-            return `${year}-${month}-${day}`
         },
         async getDateReportInfo() {
             const {
                 data: { data },
             } = await getDateReport(this.currentDate)
-            this.dateReport.set(this.currentDate, data)
-            // console.log(this.dateReport)
+            this.$store.commit('guildLog/setDateReport', { key: this.currentDate, value: data })
+            // console.log(this.guildLog.dateReport)
         },
         async handleChange(value) {
             this.currentDate = value
-            const MilliSecondsPerDay = 24 * 60 * 60 * 1000
             if (
-                !this.dateReport.has(this.currentDate) ||
-                new Date() - new Date(this.currentDate) < MilliSecondsPerDay
+                !this.guildLog.dateReport.has(this.currentDate) ||
+                isTimeDifferenceLessOneDay(new Date(this.currentDate))
             ) {
                 await this.getDateReportInfo()
             }
@@ -93,7 +81,7 @@ export default {
                 data: [],
             }))
             let index = 0
-            for (const { damage_list } of this.dateReport.get(this.currentDate)) {
+            for (const { damage_list } of this.guildLog.dateReport.get(this.currentDate)) {
                 series.forEach(({ data }) => {
                     data[index] = 0
                 })

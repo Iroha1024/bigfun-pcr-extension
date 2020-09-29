@@ -4,10 +4,14 @@ const guildLog = {
     namespaced: true,
     state: {
         dateList: [],
+        dateReport: new Map(),
     },
     mutations: {
         setDateList(state, dateList) {
             state.dateList = dateList
+        },
+        setDateReport(state, { key, value }) {
+            state.dateReport.set(key, value)
         },
     },
     actions: {
