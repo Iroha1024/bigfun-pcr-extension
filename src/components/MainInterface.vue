@@ -1,11 +1,11 @@
 <template>
     <a-modal centered :footer="null" :visible="isVisible" width="auto" @cancel="toggleModal">
-        <a-tabs default-active-key="1" @tabClick="tabClick" forceRender>
+        <a-tabs default-active-key="1" v-model="activeKey" @tabClick="tabClick">
             <a-tab-pane key="1" tab="每日报表">
-                <date-report></date-report>
+                <date-report v-show="activeKey == 1"></date-report>
             </a-tab-pane>
             <a-tab-pane key="2" tab="总结报表">
-                <summary-report ref="summaryReport"></summary-report>
+                <summary-report v-show="activeKey == 2" ref="summaryReport"></summary-report>
             </a-tab-pane>
         </a-tabs>
     </a-modal>
@@ -21,6 +21,11 @@ export default {
         SummaryReport,
     },
     props: ['isVisible', 'toggleModal'],
+    data() {
+        return {
+            activeKey: '1'
+        }
+    },
     created() {
         this.$store.dispatch('guildLog/getInfo')
     },

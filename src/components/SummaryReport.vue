@@ -92,7 +92,7 @@ export default {
         },
         setOptions() {
             const series = []
-            for (const [date, data] of [...this.guildLog.dateReport]) {
+            for (const [date, data] of [...this.guildLog.dateReport].reverse()) {
                 if (data.length < 1) continue
                 const { damage_list } = data
                     .filter(({ name }) => this.currentUserName == name)
@@ -105,20 +105,45 @@ export default {
                     const data = new Array(this.bossReport.bossList.length).fill(0)
                     data[index] = damage
                     series.push({
-                        name: date,
+                        name: date.slice(5),
                         type: 'bar',
+                        barGap: '-100%',
+                        barMaxWidth: '20%',
                         stack: bossname,
                         data,
                     })
                 })
             }
-            console.log(series)
             this.options = {
-                color: ['#003366', '#006699', '#4cabce', '#e5323e', '#c1567e'],
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'shadow',
+                    },
+                    formatter: function (params) {
+                        let str = '',
+                            coreInfo = '',
+                            sum = 0
+                        for (const { seriesName, value, color } of params.reverse()) {
+                            if (value > 0) {
+                                coreInfo += `
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="
+                                                background-color:${color};
+                                                width: 10px;
+                                                height: 10px;
+                                                border-radius: 5px;
+                                                margin-right: 5px;">
+                                        </div>
+                                        <span>${seriesName}: ${value.toLocaleString()}</span>
+                                    </div>`
+                                sum += value
+                            }
+                        }
+                        sum = sum.toLocaleString()
+                        const title = `总和：${sum}`
+                        str = `${title}${coreInfo}`
+                        return str
                     },
                 },
                 legend: {
