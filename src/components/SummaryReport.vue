@@ -3,7 +3,7 @@
         <a-select :value="currentUserName" style="width: 200px" @change="handleChange">
             <a-select-option
                 :value="user.username"
-                v-for="(user, index) of userInfoList"
+                v-for="(user, index) of guildSummaryReport.userInfoList"
                 :key="index"
             >
                 {{ user.username }}
@@ -15,7 +15,7 @@
 
 <script>
 import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/'
-import { getDateReport, getGuildSummaryReport, getUser } from '../api/request'
+import { getDateReport, getUser } from '../api/request'
 
 import { mapState } from 'vuex'
 
@@ -24,6 +24,7 @@ export default {
         ...mapState({
             guildDailyReport: (state) => state.guildDailyReport,
             bossReport: (state) => state.bossReport,
+            guildSummaryReport: (state) => state.guildSummaryReport,
         }),
         vaildDateList() {
             return this.guildDailyReport.dateList.filter((item) => new Date() > new Date(item))
@@ -32,7 +33,6 @@ export default {
     data() {
         return {
             today: null,
-            userInfoList: [],
             currentUserName: '',
             options: null,
         }
@@ -40,7 +40,6 @@ export default {
     async created() {
         await this.getUserInfo()
         await this.getDateReport()
-        await this.getGuildSummaryReportInfo()
         this.setOptions()
     },
     methods: {
@@ -73,18 +72,6 @@ export default {
                 } = await getDateReport(this.today)
                 this.$store.commit('guildDailyReport/setDateReport', { key: date, value: data })
             }
-        },
-        async getGuildSummaryReportInfo() {
-            const {
-                data: {
-                    data: { data },
-                },
-            } = await getGuildSummaryReport()
-            this.userInfoList = data.map(({ username, damage, score }) => ({
-                username,
-                damage,
-                score,
-            }))
         },
         handleChange(value) {
             this.currentUserName = value

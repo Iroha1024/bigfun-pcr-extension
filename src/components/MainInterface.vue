@@ -7,6 +7,9 @@
             <a-tab-pane key="2" tab="总结报表">
                 <summary-report v-show="activeKey == 2" ref="summaryReport"></summary-report>
             </a-tab-pane>
+            <a-tab-pane key="3" tab="转化率报表">
+                <inversion-rate-report v-show="activeKey == 3"></inversion-rate-report>
+            </a-tab-pane>
         </a-tabs>
     </a-modal>
 </template>
@@ -14,20 +17,23 @@
 <script>
 import DateReport from './DateReport'
 import SummaryReport from './SummaryReport'
+import InversionRateReport from './InversionRateReport'
 
 export default {
     components: {
         DateReport,
         SummaryReport,
+        InversionRateReport,
     },
     props: ['isVisible', 'toggleModal'],
     data() {
         return {
-            activeKey: '1'
+            activeKey: '1',
         }
     },
     created() {
         this.$store.dispatch('guildDailyReport/getInfo')
+        this.$store.dispatch('guildSummaryReport/getInfo')
     },
     methods: {
         tabClick(key) {

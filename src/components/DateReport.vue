@@ -1,7 +1,11 @@
 <template>
     <div>
         <a-select :value="currentDate" style="width: 120px" @change="handleChange">
-            <a-select-option :value="date" v-for="(date, index) of guildDailyReport.dateList" :key="index">
+            <a-select-option
+                :value="date"
+                v-for="(date, index) of guildDailyReport.dateList"
+                :key="index"
+            >
                 {{ date }}
             </a-select-option>
         </a-select>
@@ -61,7 +65,10 @@ export default {
             const {
                 data: { data },
             } = await getDateReport(this.currentDate)
-            this.$store.commit('guildDailyReport/setDateReport', { key: this.currentDate, value: data })
+            this.$store.commit('guildDailyReport/setDateReport', {
+                key: this.currentDate,
+                value: data,
+            })
             // console.log(this.guildDailyReport.dateReport)
         },
         async handleChange(value) {
