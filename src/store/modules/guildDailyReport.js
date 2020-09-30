@@ -1,6 +1,6 @@
-import { getGuildLog } from '../../api/request'
+import { getGuildDailyReport } from '../../api/request'
 
-const guildLog = {
+const guildDailyReport = {
     namespaced: true,
     state: {
         dateList: [],
@@ -20,10 +20,10 @@ const guildLog = {
                 data: {
                     data: { day_list },
                 },
-            } = await getGuildLog()
+            } = await getGuildDailyReport()
             commit('setDateList', day_list)
         },
     },
 }
 
-export default guildLog
+export default guildDailyReport

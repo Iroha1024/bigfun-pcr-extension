@@ -1,7 +1,7 @@
 <template>
     <div>
         <a-select :value="currentDate" style="width: 120px" @change="handleChange">
-            <a-select-option :value="date" v-for="(date, index) of guildLog.dateList" :key="index">
+            <a-select-option :value="date" v-for="(date, index) of guildDailyReport.dateList" :key="index">
                 {{ date }}
             </a-select-option>
         </a-select>
@@ -30,10 +30,10 @@ export default {
     },
     computed: {
         userList() {
-            return this.guildLog.dateReport.get(this.currentDate).map((item) => item.name)
+            return this.guildDailyReport.dateReport.get(this.currentDate).map((item) => item.name)
         },
         ...mapState({
-            guildLog: (state) => state.guildLog,
+            guildDailyReport: (state) => state.guildDailyReport,
             bossReport: (state) => state.bossReport,
         }),
     },
@@ -49,10 +49,10 @@ export default {
         },
         setCurrentDate() {
             const date = transformDate(new Date())
-            if (this.guildLog.dateList.includes(date)) {
+            if (this.guildDailyReport.dateList.includes(date)) {
                 this.currentDate = date
             } else {
-                const maxDate = getMaxDate(this.guildLog.dateList)
+                const maxDate = getMaxDate(this.guildDailyReport.dateList)
                 this.currentDate = transformDate(maxDate)
             }
             // console.log(this.currentDate);
@@ -61,13 +61,13 @@ export default {
             const {
                 data: { data },
             } = await getDateReport(this.currentDate)
-            this.$store.commit('guildLog/setDateReport', { key: this.currentDate, value: data })
-            // console.log(this.guildLog.dateReport)
+            this.$store.commit('guildDailyReport/setDateReport', { key: this.currentDate, value: data })
+            // console.log(this.guildDailyReport.dateReport)
         },
         async handleChange(value) {
             this.currentDate = value
             if (
-                !this.guildLog.dateReport.has(this.currentDate) ||
+                !this.guildDailyReport.dateReport.has(this.currentDate) ||
                 isTimeDifferenceLessOneDay(new Date(this.currentDate))
             ) {
                 await this.getDateReportInfo()
@@ -81,7 +81,7 @@ export default {
                 data: [],
             }))
             let index = 0
-            for (const { damage_list } of this.guildLog.dateReport.get(this.currentDate)) {
+            for (const { damage_list } of this.guildDailyReport.dateReport.get(this.currentDate)) {
                 series.forEach(({ data }) => {
                     data[index] = 0
                 })

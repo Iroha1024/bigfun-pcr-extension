@@ -1,11 +1,11 @@
 import { baseURL, instance } from './axios'
 
 /**
- * 公会日志
+ * 公会日表
  *
  * https://www.bigfun.cn/api/feweb?target=gzlj-clan-day-report-collect%2Fa
  */
-export const getGuildLog = () => {
+export const getGuildDailyReport = () => {
     const url = `${baseURL}feweb?target=gzlj-clan-day-report-collect%2Fa`
     return instance.get(url)
 }
@@ -21,7 +21,7 @@ export const getDateReport = (date) => {
 }
 
 /**
- * boss 报表
+ * boss报表
  *
  * https://www.bigfun.cn/api/feweb?target=gzlj-clan-boss-report-collect%2Fa
  */

@@ -22,11 +22,11 @@ import { mapState } from 'vuex'
 export default {
     computed: {
         ...mapState({
-            guildLog: (state) => state.guildLog,
+            guildDailyReport: (state) => state.guildDailyReport,
             bossReport: (state) => state.bossReport,
         }),
         vaildDateList() {
-            return this.guildLog.dateList.filter((item) => new Date() > new Date(item))
+            return this.guildDailyReport.dateList.filter((item) => new Date() > new Date(item))
         },
     },
     data() {
@@ -58,11 +58,11 @@ export default {
                 this.today = maxDate
             }
             for (const date of this.vaildDateList) {
-                if (!this.guildLog.dateReport.has(date)) {
+                if (!this.guildDailyReport.dateReport.has(date)) {
                     const {
                         data: { data },
                     } = await getDateReport(date)
-                    this.$store.commit('guildLog/setDateReport', { key: date, value: data })
+                    this.$store.commit('guildDailyReport/setDateReport', { key: date, value: data })
                 }
             }
         },
@@ -71,7 +71,7 @@ export default {
                 const {
                     data: { data },
                 } = await getDateReport(this.today)
-                this.$store.commit('guildLog/setDateReport', { key: date, value: data })
+                this.$store.commit('guildDailyReport/setDateReport', { key: date, value: data })
             }
         },
         async getGuildSummaryReportInfo() {
@@ -92,7 +92,7 @@ export default {
         },
         setOptions() {
             const series = []
-            for (const [date, data] of [...this.guildLog.dateReport].reverse()) {
+            for (const [date, data] of [...this.guildDailyReport.dateReport].reverse()) {
                 if (data.length < 1) continue
                 const { damage_list } = data
                     .filter(({ name }) => this.currentUserName == name)

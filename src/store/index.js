@@ -3,12 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import guildLog from './modules/guildLog'
+import guildDailyReport from './modules/guildDailyReport'
 import bossReport from './modules/bossReport'
 
 export default new Vuex.Store({
     modules: {
-        guildLog,
+        guildDailyReport,
         bossReport,
     },
 })

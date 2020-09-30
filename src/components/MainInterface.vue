@@ -27,7 +27,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('guildLog/getInfo')
+        this.$store.dispatch('guildDailyReport/getInfo')
     },
     methods: {
         tabClick(key) {
