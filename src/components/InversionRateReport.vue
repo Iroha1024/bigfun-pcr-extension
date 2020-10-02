@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getGuildSummaryReport } from '../api/request'
+import { getGuildSummaryReport } from '../api/'
 
 import { mapState } from 'vuex'
 

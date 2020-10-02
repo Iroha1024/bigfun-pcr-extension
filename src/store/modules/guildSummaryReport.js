@@ -1,4 +1,4 @@
-import { getGuildSummaryReport } from '../../api/request'
+import { getGuildSummaryReport } from '../../api/'
 
 const guildSummaryReport = {
     namespaced: true,

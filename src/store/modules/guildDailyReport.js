@@ -1,4 +1,4 @@
-import { getGuildDailyReport } from '../../api/request'
+import { getGuildDailyReport } from '../../api/'
 
 const guildDailyReport = {
     namespaced: true,

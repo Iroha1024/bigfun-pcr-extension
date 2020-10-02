@@ -15,7 +15,7 @@
 
 <script>
 import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
-import { getDateReport, getUser } from '../api/request'
+import { getDateReport, getUser } from '../api/'
 
 import { mapState } from 'vuex'
 

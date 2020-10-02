@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getDateReport, getBossReport } from '../api/request'
+import { getDateReport, getBossReport } from '../api/'
 import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
 
 import { mapState } from 'vuex'
