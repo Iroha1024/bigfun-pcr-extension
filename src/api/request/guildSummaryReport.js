@@ -11,4 +11,3 @@ export const getGuildSummaryReport = () => {
     const url = '/feweb?target=gzlj-clan-collect-report%2Fa'
     return instance.get(url)
 }
-

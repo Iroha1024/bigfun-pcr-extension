@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { getGuildSummaryReport } from '../api/'
-
 import { mapState } from 'vuex'
 
 export default {

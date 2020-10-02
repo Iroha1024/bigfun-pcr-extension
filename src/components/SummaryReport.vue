@@ -22,6 +22,7 @@ import { mapState } from 'vuex'
 export default {
     computed: {
         ...mapState({
+            home: (state) => state.home,
             guildDailyReport: (state) => state.guildDailyReport,
             bossReport: (state) => state.bossReport,
             guildSummaryReport: (state) => state.guildSummaryReport,
@@ -38,20 +39,15 @@ export default {
         }
     },
     async created() {
-        await this.getUserInfo()
-        await this.getDateReport()
+        await this.setUserName()
+        await this.getDateReportInfo()
         this.setOptions()
     },
     methods: {
-        async getUserInfo() {
-            const {
-                data: {
-                    data: { player_name },
-                },
-            } = await getUser()
-            this.currentUserName = player_name
+        setUserName() {
+            this.currentUserName = this.home.username
         },
-        async getDateReport() {
+        async getDateReportInfo() {
             const maxDate = transformDate(getMaxDate(this.vaildDateList))
             if (isTimeDifferenceLessOneDay(maxDate)) {
                 this.today = maxDate
