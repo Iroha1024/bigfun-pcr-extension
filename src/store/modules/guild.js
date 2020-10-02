@@ -1,13 +1,14 @@
-import { getGuildDailyReport } from '../../api/'
+import { getGuildDailyReport, getRank } from '../../api/'
 
-const guildDailyReport = {
+const guild = {
     namespaced: true,
     state: {
         month: 1,
         constellationName: '',
-        lastRanking: 0,
+        rank: 0,
         guildName: '',
         dateList: [],
+        bossList: [],
         dateReport: new Map(),
     },
     mutations: {
@@ -17,14 +18,17 @@ const guildDailyReport = {
         setConstellationName(state, constellationName) {
             state.constellationName = constellationName
         },
-        setLastRanking(state, lastRanking) {
-            state.lastRanking = lastRanking
+        setRank(state, rank) {
+            state.rank = rank
         },
         setGuildName(state, guildName) {
             state.guildName = guildName
         },
         setDateList(state, dateList) {
             state.dateList = dateList
+        },
+        setBossList(state, bossList) {
+            state.bossList = bossList.map((boos) => boos.boss_name)
         },
         setDateReport(state, { key, value }) {
             state.dateReport.set(key, value)
@@ -34,9 +38,15 @@ const guildDailyReport = {
         async getInfo({ commit }) {
             const {
                 data: {
+                    data: { rank },
+                },
+            } = await getRank()
+            commit('setRank', rank)
+            const {
+                data: {
                     data: {
                         battle_info: { name: constellationName },
-                        clan_info: { last_ranking: lastRanking, name: guildName },
+                        clan_info: { name: guildName },
                         day_list,
                     },
                 },
@@ -48,11 +58,10 @@ const guildDailyReport = {
             const month = getMonth(day_list)
             commit('setMonth', month)
             commit('setConstellationName', constellationName)
-            commit('setLastRanking', lastRanking)
             commit('setGuildName', guildName)
             commit('setDateList', day_list)
         },
     },
 }
 
-export default guildDailyReport
+export default guild

@@ -37,9 +37,9 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('home/getInfo')
-        this.$store.dispatch('guildDailyReport/getInfo')
-        this.$store.dispatch('guildSummaryReport/getInfo')
+        this.$store.dispatch('user/getUserName')
+        this.$store.dispatch('user/getUserInfoList')
+        this.$store.dispatch('guild/getInfo')
     },
     methods: {
         tabClick(key) {

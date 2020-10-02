@@ -10,7 +10,7 @@ import { mapState } from 'vuex'
 export default {
     computed: {
         ...mapState({
-            guildSummaryReport: (state) => state.guildSummaryReport,
+            user: (state) => state.user,
         }),
     },
     data() {
@@ -23,7 +23,7 @@ export default {
     },
     methods: {
         setOptions() {
-            const userInfoList = this.guildSummaryReport.userInfoList
+            const userInfoList = this.user.userInfoList
                 .map(({ username, damage, score }) => ({
                     username,
                     damage,

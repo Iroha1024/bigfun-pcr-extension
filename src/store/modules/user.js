@@ -1,17 +1,29 @@
-import { getGuildSummaryReport } from '../../api/'
+import { getUser, getGuildSummaryReport } from '../../api/'
 
-const guildSummaryReport = {
+const user = {
     namespaced: true,
     state: {
+        username: '',
         userInfoList: [],
     },
     mutations: {
+        setUserName(state, username) {
+            state.username = username
+        },
         setUserInfoList(state, userInfoList) {
             state.userInfoList = userInfoList
         },
     },
     actions: {
-        async getInfo({ commit }) {
+        async getUserName({ commit }) {
+            const {
+                data: {
+                    data: { player_name },
+                },
+            } = await getUser()
+            commit('setUserName', player_name)
+        },
+        async getUserInfoList({ commit }) {
             const {
                 data: {
                     data: { data },
@@ -27,4 +39,4 @@ const guildSummaryReport = {
     },
 }
 
-export default guildSummaryReport
+export default user

@@ -3,7 +3,7 @@
         <a-select :value="currentUserName" style="width: 200px" @change="handleChange">
             <a-select-option
                 :value="user.username"
-                v-for="(user, index) of guildSummaryReport.userInfoList"
+                v-for="(user, index) of user.userInfoList"
                 :key="index"
             >
                 {{ user.username }}
@@ -22,13 +22,11 @@ import { mapState } from 'vuex'
 export default {
     computed: {
         ...mapState({
-            home: (state) => state.home,
-            guildDailyReport: (state) => state.guildDailyReport,
-            bossReport: (state) => state.bossReport,
-            guildSummaryReport: (state) => state.guildSummaryReport,
+            user: (state) => state.user,
+            guild: (state) => state.guild,
         }),
         vaildDateList() {
-            return this.guildDailyReport.dateList.filter((item) => new Date() > new Date(item))
+            return this.guild.dateList.filter((item) => new Date() > new Date(item))
         },
     },
     data() {
@@ -45,7 +43,7 @@ export default {
     },
     methods: {
         setUserName() {
-            this.currentUserName = this.home.username
+            this.currentUserName = this.user.username
         },
         async getDateReportInfo() {
             const maxDate = transformDate(getMaxDate(this.vaildDateList))
@@ -53,11 +51,11 @@ export default {
                 this.today = maxDate
             }
             for (const date of this.vaildDateList) {
-                if (!this.guildDailyReport.dateReport.has(date)) {
+                if (!this.guild.dateReport.has(date)) {
                     const {
                         data: { data },
                     } = await getDateReport(date)
-                    this.$store.commit('guildDailyReport/setDateReport', { key: date, value: data })
+                    this.$store.commit('guild/setDateReport', { key: date, value: data })
                 }
             }
         },
@@ -66,7 +64,7 @@ export default {
                 const {
                     data: { data },
                 } = await getDateReport(this.today)
-                this.$store.commit('guildDailyReport/setDateReport', { key: date, value: data })
+                this.$store.commit('guild/setDateReport', { key: date, value: data })
             }
         },
         handleChange(value) {
@@ -75,15 +73,15 @@ export default {
         },
         setOptions() {
             const series = []
-            for (const [date, data] of [...this.guildDailyReport.dateReport].reverse()) {
+            for (const [date, data] of [...this.guild.dateReport].reverse()) {
                 if (data.length < 1) continue
                 const { damage_list } = data
                     .filter(({ name }) => this.currentUserName == name)
                     .pop()
                 damage_list.forEach(({ boss_name, damage }) => {
-                    const bossName = getSimilarString(boss_name, this.bossReport.bossList)
-                    const index = this.bossReport.bossList.indexOf(bossName)
-                    const data = new Array(this.bossReport.bossList.length).fill(0)
+                    const bossName = getSimilarString(boss_name, this.guild.bossList)
+                    const index = this.guild.bossList.indexOf(bossName)
+                    const data = new Array(this.guild.bossList.length).fill(0)
                     data[index] = damage
                     series.push({
                         name: date.slice(5),
@@ -134,7 +132,7 @@ export default {
                     {
                         type: 'category',
                         axisTick: { show: false },
-                        data: this.bossReport.bossList,
+                        data: this.guild.bossList,
                     },
                 ],
                 yAxis: [
