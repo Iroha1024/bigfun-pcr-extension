@@ -15,7 +15,7 @@
 
 <script>
 import { getDateReport, getBossReport } from '../api/request'
-import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/'
+import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
 
 import { mapState } from 'vuex'
 
@@ -49,7 +49,6 @@ export default {
                 },
             } = await getBossReport()
             this.$store.commit('bossReport/setBossList', boss_list)
-            // console.log(this.bossReport.bossList.map((item) => item.boss_name))
         },
         setCurrentDate() {
             const date = transformDate(new Date())
@@ -82,8 +81,8 @@ export default {
             this.setOptions()
         },
         setOptions() {
-            const series = this.bossReport.bossList.map(({ boss_name }) => ({
-                name: boss_name,
+            const series = this.bossReport.bossList.map((boss) => ({
+                name: boss,
                 type: 'bar',
                 data: [],
             }))
@@ -93,7 +92,8 @@ export default {
                     data[index] = 0
                 })
                 for (const { boss_name, damage } of damage_list) {
-                    const { data } = series.find((item) => item.name == boss_name.trim())
+                    const bossName = getSimilarString(boss_name, this.bossReport.bossList)
+                    const { data } = series.find((item) => item.name == bossName)
                     data[index] += damage
                 }
                 index++

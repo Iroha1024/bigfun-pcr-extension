@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/'
+import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
 import { getDateReport, getUser } from '../api/request'
 
 import { mapState } from 'vuex'
@@ -85,10 +85,8 @@ export default {
                     .filter(({ name }) => this.currentUserName == name)
                     .pop()
                 damage_list.forEach(({ boss_name, damage }) => {
-                    const bossname = boss_name.trim()
-                    const index = this.bossReport.bossList
-                        .map(({ boss_name }) => boss_name)
-                        .indexOf(bossname)
+                    const bossName = getSimilarString(boss_name, this.bossReport.bossList)
+                    const index = this.bossReport.bossList.indexOf(bossName)
                     const data = new Array(this.bossReport.bossList.length).fill(0)
                     data[index] = damage
                     series.push({
@@ -96,7 +94,7 @@ export default {
                         type: 'bar',
                         barGap: '-100%',
                         barMaxWidth: '20%',
-                        stack: bossname,
+                        stack: bossName,
                         data,
                     })
                 })
@@ -140,7 +138,7 @@ export default {
                     {
                         type: 'category',
                         axisTick: { show: false },
-                        data: this.bossReport.bossList.map(({ boss_name }) => boss_name),
+                        data: this.bossReport.bossList,
                     },
                 ],
                 yAxis: [
