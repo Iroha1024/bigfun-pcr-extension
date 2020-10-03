@@ -29,10 +29,12 @@ const user = {
                     data: { data },
                 },
             } = await getGuildSummaryReport()
-            const userInfoList = data.map(({ username, damage, score }) => ({
+            const userInfoList = data.map(({ username, damage, score, number }) => ({
                 username,
                 damage,
                 score,
+                rate: parseFloat((score / damage).toFixed(3)),
+                ChallengeSum: number,
             }))
             commit('setUserInfoList', userInfoList)
         },

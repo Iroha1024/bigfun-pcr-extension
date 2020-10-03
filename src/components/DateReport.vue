@@ -19,6 +19,7 @@ export default {
     async created() {
         await this.getBossReportInfo()
         this.setCurrentDate()
+        await this.getDateReportInfo()
         this.setOptions()
     },
     data() {

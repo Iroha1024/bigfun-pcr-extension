@@ -6,6 +6,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import cloneDeep from 'lodash.clonedeep'
 
 export default {
     computed: {
@@ -23,14 +24,7 @@ export default {
     },
     methods: {
         setOptions() {
-            const userInfoList = this.user.userInfoList
-                .map(({ username, damage, score }) => ({
-                    username,
-                    damage,
-                    score,
-                    rate: parseFloat((score / damage).toFixed(3)),
-                }))
-                .sort((a, b) => a.rate - b.rate)
+            const userInfoList = cloneDeep(this.user.userInfoList).sort((a, b) => a.rate - b.rate)
             const series = [
                 {
                     name: '转化率',

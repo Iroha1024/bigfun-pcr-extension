@@ -14,24 +14,22 @@
 </template>
 
 <script>
-import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
-import { getDateReport, getUser } from '../api/'
+import { getSimilarString } from '../utils/'
+import { getUser } from '../api/'
+import { getDateReportMixin } from '../mixin/getDateReport'
 
 import { mapState } from 'vuex'
 
 export default {
+    mixins: [getDateReportMixin],
     computed: {
         ...mapState({
             user: (state) => state.user,
             guild: (state) => state.guild,
         }),
-        vaildDateList() {
-            return this.guild.dateList.filter((item) => new Date() > new Date(item))
-        },
     },
     data() {
         return {
-            today: null,
             currentUserName: '',
             options: null,
         }
@@ -45,28 +43,6 @@ export default {
         setUserName() {
             this.currentUserName = this.user.username
         },
-        async getDateReportInfo() {
-            const maxDate = transformDate(getMaxDate(this.vaildDateList))
-            if (isTimeDifferenceLessOneDay(maxDate)) {
-                this.today = maxDate
-            }
-            for (const date of this.vaildDateList) {
-                if (!this.guild.dateReport.has(date)) {
-                    const {
-                        data: { data },
-                    } = await getDateReport(date)
-                    this.$store.commit('guild/setDateReport', { key: date, value: data })
-                }
-            }
-        },
-        async getTodayReport() {
-            if (this.today) {
-                const {
-                    data: { data },
-                } = await getDateReport(this.today)
-                this.$store.commit('guild/setDateReport', { key: date, value: data })
-            }
-        },
         handleChange(value) {
             this.currentUserName = value
             this.setOptions()
@@ -75,9 +51,7 @@ export default {
             const series = []
             for (const [date, data] of [...this.guild.dateReport].reverse()) {
                 if (data.length < 1) continue
-                const { damage_list } = data
-                    .filter(({ name }) => this.currentUserName == name)
-                    .pop()
+                const { damage_list } = data.find(({ name }) => this.currentUserName == name)
                 damage_list.forEach(({ boss_name, damage }) => {
                     const bossName = getSimilarString(boss_name, this.guild.bossList)
                     const index = this.guild.bossList.indexOf(bossName)
