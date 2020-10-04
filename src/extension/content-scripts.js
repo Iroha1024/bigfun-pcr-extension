@@ -3,8 +3,9 @@ import App from '../App.vue'
 
 import store from '../store/'
 
-import '../plugins/ant-design-vue'
+import '../plugins/ant-design-vue/'
 import '../plugins/vue-echarts'
+import 'default-passive-events'
 
 Vue.config.productionTip = false
 

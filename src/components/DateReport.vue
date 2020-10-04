@@ -95,7 +95,6 @@ export default {
             }
             // console.log(series)
             this.options = {
-                color: ['#003366', '#006699', '#4cabce', '#e5323e', '#c1567e'],
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
