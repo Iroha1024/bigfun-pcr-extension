@@ -53,9 +53,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.chart {
-    width: 900px !important;
-    height: 500px !important;
-}
-</style>
+<style lang="scss"></style>

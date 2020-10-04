@@ -9,7 +9,7 @@
                 {{ user.username }}
             </a-select-option>
         </a-select>
-        <v-chart :options="options" class="chart" />
+        <echarts :options="options" type="chart"></echarts>
     </div>
 </template>
 
@@ -18,10 +18,15 @@ import { getSimilarString } from '../utils/'
 import { getUser } from '../api/'
 import { getDateReportMixin } from '../mixin/getDateReport'
 
+import Echarts from './Echarts'
+
 import { mapState } from 'vuex'
 
 export default {
     mixins: [getDateReportMixin],
+    components: {
+        Echarts,
+    },
     computed: {
         ...mapState({
             user: (state) => state.user,

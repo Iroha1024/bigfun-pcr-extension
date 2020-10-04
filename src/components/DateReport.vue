@@ -5,7 +5,7 @@
                 {{ date }}
             </a-select-option>
         </a-select>
-        <v-chart :options="options" class="chart" />
+        <echarts :options="options" type="chart"></echarts>
     </div>
 </template>
 
@@ -13,9 +13,14 @@
 import { getDateReport, getBossReport } from '../api/'
 import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
 
+import Echarts from './Echarts'
+
 import { mapState } from 'vuex'
 
 export default {
+    components: {
+        Echarts,
+    },
     async created() {
         await this.getBossReportInfo()
         this.setCurrentDate()

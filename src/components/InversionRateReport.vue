@@ -1,14 +1,19 @@
 <template>
     <div>
-        <v-chart :options="options" class="chart" />
+        <echarts :options="options" type="chart"></echarts>
     </div>
 </template>
 
 <script>
+import Echarts from './Echarts'
+
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 
 export default {
+    components: {
+        Echarts,
+    },
     computed: {
         ...mapState({
             user: (state) => state.user,

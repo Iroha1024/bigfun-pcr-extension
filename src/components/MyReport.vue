@@ -11,7 +11,7 @@
         <p>伤害排名第{{ damage.index }}名，伤害总量为{{ damage.value.toLocaleString() }}</p>
         <p>分数排名第{{ score.index }}名，分数总量为{{ score.value.toLocaleString() }}</p>
         <p>伤害分数转换率排名第{{ rate.index }}名，数目为{{ rate.value }}</p>
-        <v-chart :options="options" class="mini-chart" />
+        <echarts :options="options" type="mini-chart"></echarts>
         <p>兰德索尔委员会</p>
     </div>
 </template>
@@ -20,11 +20,16 @@
 import { getSimilarString } from '../utils/'
 import { getDateReportMixin } from '../mixin/getDateReport'
 
+import Echarts from './Echarts'
+
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 
 export default {
     mixins: [getDateReportMixin],
+    components: {
+        Echarts,
+    },
     computed: {
         ...mapState({
             user: (state) => state.user,
@@ -116,9 +121,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.mini-chart {
-    width: 540px;
-    height: 360px;
-}
-</style>
+<style lang="scss" scoped></style>
