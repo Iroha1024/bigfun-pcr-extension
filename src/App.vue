@@ -15,12 +15,8 @@ export default {
     data() {
         return {
             isVisible: false,
+            url: browser.runtime.getURL('icons/kyaru.png'),
         }
-    },
-    computed: {
-        url() {
-            return browser.runtime.getURL('icons/kyaru.png')
-        },
     },
     methods: {
         toggleModal() {

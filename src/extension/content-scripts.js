@@ -5,7 +5,6 @@ import store from '../store/'
 
 import '../plugins/ant-design-vue/'
 import '../plugins/echarts'
-import 'default-passive-events'
 
 Vue.config.productionTip = false
 
