@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import bus from '../event-bus'
+
 export default {
     props: ['options', 'type'],
     data() {
@@ -19,6 +21,9 @@ export default {
         setOption(options) {
             this.chart.setOption(options)
             this.chart.hideLoading()
+            setTimeout(() => {
+                bus.$emit('echart-ready')
+            }, 500)
         },
         showLoading() {
             this.chart.showLoading('default', {

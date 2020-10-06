@@ -44,8 +44,8 @@ export default {
             },
             set(date) {
                 this.$store.commit('guild/setCurrentDate', date)
-            }
-        }
+            },
+        },
     },
     methods: {
         async getBossReportInfo() {

@@ -20,7 +20,7 @@ const getDateReportMixin = {
                     this.getTodayReport()
                 }
             },
-        }
+        },
     },
     methods: {
         async getDateReportInfo() {

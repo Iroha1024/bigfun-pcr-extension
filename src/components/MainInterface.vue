@@ -1,16 +1,24 @@
 <template>
     <a-modal
+        :bodyStyle="{ padding: '24px 40px' }"
         centered
         :footer="null"
         :visible="isVisible"
-        :width="1000"
+        width="auto"
         @cancel="toggleModal"
     >
         <a-tabs v-model="activeKey">
-            <a-tab-pane v-for="item of tabList" :key="item.key" :tab="item.name">
+            <a-tab-pane
+                v-for="item of tabList"
+                :key="item.key"
+                :tab="item.name"
+                :forceRender="item.forceRender"
+            >
                 <component
+                    v-show="activeKey == item.key"
                     :is="item.component"
                     :active="activeKey == item.key"
+                    @export="forceRender"
                 ></component>
             </a-tab-pane>
         </a-tabs>
@@ -22,6 +30,7 @@ import DateReport from './DateReport'
 import SummaryReport from './SummaryReport'
 import InversionRateReport from './InversionRateReport'
 import MyReport from './MyReport'
+import Export from './Export'
 
 export default {
     components: {
@@ -38,21 +47,31 @@ export default {
                     name: '每日报表',
                     key: '0',
                     component: DateReport,
+                    forceRender: false,
                 },
                 {
                     name: '总结报表',
                     key: '1',
                     component: SummaryReport,
+                    forceRender: false,
                 },
                 {
                     name: '转化率报表',
                     key: '2',
                     component: InversionRateReport,
+                    forceRender: false,
                 },
                 {
                     name: '个人总结',
                     key: '3',
                     component: MyReport,
+                    forceRender: false,
+                },
+                {
+                    name: '导出',
+                    key: '4',
+                    component: Export,
+                    forceRender: false,
                 },
             ],
             activeKey: '0',
@@ -63,12 +82,13 @@ export default {
         this.$store.dispatch('user/getUserInfoList')
         this.$store.dispatch('guild/getInfo')
     },
+    methods: {
+        forceRender(name) {
+            const component = this.tabList.find((tab) => tab.name == name)
+            component.forceRender = true
+        },
+    },
 }
 </script>
 
-<style lang="scss" scoped>
-/deep/ .ant-tabs-tabpane {
-    display: flex;
-    justify-content: center;
-}
-</style>
+<style lang="scss" scoped></style>

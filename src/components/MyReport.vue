@@ -1,6 +1,6 @@
 <template>
     <div class="my-report">
-        <div class="wrapper" :style="`background-image: url(${backgroundUrl})`">
+        <div class="wrapper" :style="`background-image: url(${backgroundUrl})`" id="myReport">
             <p class="title" :style="`background-image: url(${titleUrl})`">会战总结报告</p>
             <div class="content">
                 <p>

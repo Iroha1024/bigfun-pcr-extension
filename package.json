@@ -10,6 +10,7 @@
   "dependencies": {
     "ant-design-vue": "^1.6.5",
     "axios": "^0.20.0",
+    "dom-to-image": "^2.6.0",
     "echarts": "^4.9.0",
     "lodash.clonedeep": "^4.5.0",
     "string-similarity": "^4.0.2",
