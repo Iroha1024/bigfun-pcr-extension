@@ -11,7 +11,7 @@
 
 <script>
 import { getDateReport, getBossReport } from '../api/'
-import { getMaxDate, isTimeDifferenceLessOneDay, transformDate, getSimilarString } from '../utils/'
+import { isTimeDifferenceLessOneDay, getSimilarString } from '../utils/'
 
 import Echarts from './Echarts'
 
@@ -23,13 +23,11 @@ export default {
     },
     async created() {
         await this.getBossReportInfo()
-        this.setCurrentDate()
         await this.getDateReportInfo()
         this.setOptions()
     },
     data() {
         return {
-            currentDate: '',
             options: null,
         }
     },
@@ -40,6 +38,14 @@ export default {
         ...mapState({
             guild: (state) => state.guild,
         }),
+        currentDate: {
+            get() {
+                return this.guild.currentDate
+            },
+            set(date) {
+                this.$store.commit('guild/setCurrentDate', date)
+            }
+        }
     },
     methods: {
         async getBossReportInfo() {
@@ -49,16 +55,6 @@ export default {
                 },
             } = await getBossReport()
             this.$store.commit('guild/setBossList', boss_list)
-        },
-        setCurrentDate() {
-            const date = transformDate(new Date())
-            if (this.guild.dateList.includes(date)) {
-                this.currentDate = date
-            } else {
-                const maxDate = getMaxDate(this.guild.dateList)
-                this.currentDate = transformDate(maxDate)
-            }
-            // console.log(this.currentDate);
         },
         async getDateReportInfo() {
             const {

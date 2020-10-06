@@ -2,6 +2,7 @@ import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/
 import { getDateReport } from '../api/'
 
 const getDateReportMixin = {
+    props: ['active'],
     data() {
         return {
             today: null,
@@ -11,6 +12,15 @@ const getDateReportMixin = {
         vaildDateList() {
             return this.guild.dateList.filter((item) => new Date() > new Date(item))
         },
+    },
+    watch: {
+        active: {
+            handler(val) {
+                if (val) {
+                    this.getTodayReport()
+                }
+            },
+        }
     },
     methods: {
         async getDateReportInfo() {
@@ -32,7 +42,7 @@ const getDateReportMixin = {
                 const {
                     data: { data },
                 } = await getDateReport(this.today)
-                this.$store.commit('guild/setDateReport', { key: date, value: data })
+                this.$store.commit('guild/setDateReport', { key: this.today, value: data })
             }
         },
     },

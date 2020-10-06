@@ -1,4 +1,5 @@
 import { getGuildDailyReport, getRank } from '../../api/'
+import { transformDate, getMaxDate } from '../../utils/'
 
 const guild = {
     namespaced: true,
@@ -7,6 +8,7 @@ const guild = {
         constellationName: '',
         rank: 0,
         guildName: '',
+        currentDate: '',
         dateList: [],
         bossList: [],
         dateReport: new Map(),
@@ -23,6 +25,9 @@ const guild = {
         },
         setGuildName(state, guildName) {
             state.guildName = guildName
+        },
+        setCurrentDate(state, currentDate) {
+            state.currentDate = currentDate
         },
         setDateList(state, dateList) {
             state.dateList = dateList
@@ -56,12 +61,23 @@ const guild = {
                 return date.getMonth() + 1
             }
             const month = getMonth(day_list)
+            const currentDate = getCurrentDate(day_list)
             commit('setMonth', month)
             commit('setConstellationName', constellationName)
             commit('setGuildName', guildName)
+            commit('setCurrentDate', currentDate)
             commit('setDateList', day_list)
         },
     },
+}
+
+function getCurrentDate(dateList) {
+    let date = transformDate(new Date())
+    if (!dateList.includes(date)) {
+        const maxDate = getMaxDate(dateList)
+        date = transformDate(maxDate)
+    }
+    return date
 }
 
 export default guild

@@ -1,17 +1,17 @@
 <template>
-    <a-modal centered :footer="null" :visible="isVisible" width="auto" @cancel="toggleModal">
-        <a-tabs default-active-key="1" v-model="activeKey" @tabClick="tabClick">
-            <a-tab-pane key="1" tab="每日报表">
-                <date-report v-show="activeKey == 1"></date-report>
-            </a-tab-pane>
-            <a-tab-pane key="2" tab="总结报表">
-                <summary-report v-show="activeKey == 2" ref="child"></summary-report>
-            </a-tab-pane>
-            <a-tab-pane key="3" tab="转化率报表">
-                <inversion-rate-report v-show="activeKey == 3"></inversion-rate-report>
-            </a-tab-pane>
-            <a-tab-pane key="4" tab="个人总结">
-                <my-report v-show="activeKey == 4" ref="child"></my-report>
+    <a-modal
+        centered
+        :footer="null"
+        :visible="isVisible"
+        :width="1000"
+        @cancel="toggleModal"
+    >
+        <a-tabs v-model="activeKey">
+            <a-tab-pane v-for="item of tabList" :key="item.key" :tab="item.name">
+                <component
+                    :is="item.component"
+                    :active="activeKey == item.key"
+                ></component>
             </a-tab-pane>
         </a-tabs>
     </a-modal>
@@ -33,7 +33,29 @@ export default {
     props: ['isVisible', 'toggleModal'],
     data() {
         return {
-            activeKey: '1',
+            tabList: [
+                {
+                    name: '每日报表',
+                    key: '0',
+                    component: DateReport,
+                },
+                {
+                    name: '总结报表',
+                    key: '1',
+                    component: SummaryReport,
+                },
+                {
+                    name: '转化率报表',
+                    key: '2',
+                    component: InversionRateReport,
+                },
+                {
+                    name: '个人总结',
+                    key: '3',
+                    component: MyReport,
+                },
+            ],
+            activeKey: '0',
         }
     },
     created() {
@@ -41,16 +63,12 @@ export default {
         this.$store.dispatch('user/getUserInfoList')
         this.$store.dispatch('guild/getInfo')
     },
-    methods: {
-        tabClick(key) {
-            if (key == '2' || key == '4') {
-                if (this.$refs.child) {
-                    this.$refs.child.getTodayReport()
-                }
-            }
-        },
-    },
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+/deep/ .ant-tabs-tabpane {
+    display: flex;
+    justify-content: center;
+}
+</style>
