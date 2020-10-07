@@ -29,26 +29,17 @@ export default {
     methods: {
         exportReport() {
             for (const name of this.checkedList) {
-                this.loading = true
                 if (name == '个人总结') {
-                    bus.$once('echart-ready', () => {
-                        const report = document.getElementById('myReport')
-                        const node = report.parentNode
-                        node.style.display = 'block'
-                        node.style.position = 'absolute'
-                        domtoimage
-                            .toPng(report)
-                            .then((url) => {
-                                this.loading = false
-                                node.style.display = 'none'
-                                node.style.position = 'static'
-                                this.download(url, 'report.png')
-                            })
-                            .catch(() => {
-                                this.loading = false
-                            })
-                    })
-                    this.$emit('export', name)
+                    let report = document.getElementById('myReport')
+                    if (report) {
+                        this.exportMyReport(report)
+                    } else {
+                        bus.$once('echart-ready', () => {
+                            report = document.getElementById('myReport')
+                            this.exportMyReport(report)
+                        })
+                        this.$emit('export', name)
+                    }
                 }
             }
         },
@@ -57,6 +48,23 @@ export default {
             a.href = url
             a.download = name
             a.click()
+        },
+        exportMyReport(report) {
+            this.loading = true
+            const node = report.parentNode
+            node.style.display = 'block'
+            node.style.position = 'absolute'
+            domtoimage
+                .toPng(report)
+                .then((url) => {
+                    this.loading = false
+                    node.style.display = 'none'
+                    node.style.position = 'static'
+                    this.download(url, 'report.png')
+                })
+                .catch(() => {
+                    this.loading = false
+                })
         },
     },
 }
