@@ -48,14 +48,16 @@
 <script>
 import { getSimilarString } from '../utils/'
 import { getDateReportMixin } from '../mixin/getDateReport'
+import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import Echarts from './Echarts'
 
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
+import debounce from 'lodash.debounce'
 
 export default {
-    mixins: [getDateReportMixin],
+    mixins: [getDateReportMixin, getUserInfoMixin],
     components: {
         Echarts,
     },
@@ -75,7 +77,15 @@ export default {
         },
         ChallengeSum() {
             return this.user.userInfoList.find(({ username }) => username == this.user.username)
-                .ChallengeSum
+                ?.ChallengeSum
+        },
+    },
+    watch: {
+        'guild.dateReportTracker': {
+            handler: debounce(function () {
+                this.setOptions()
+            }, 500),
+            immediate: true,
         },
     },
     data() {
@@ -88,10 +98,14 @@ export default {
     },
     async created() {
         await this.getDateReportInfo()
-        this.setOptions()
     },
     methods: {
         sortThenReturnValue(sort, property) {
+            if (this.user.userInfoList.length < 1)
+                return {
+                    index: 0,
+                    value: 0,
+                }
             const newArr = cloneDeep(this.user.userInfoList).sort(sort)
             const user = newArr.find(({ username }) => username == this.user.username)
             const index = newArr.indexOf(user) + 1

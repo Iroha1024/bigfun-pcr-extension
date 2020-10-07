@@ -14,20 +14,21 @@ const getDateReportMixin = {
         },
     },
     watch: {
-        active: {
-            handler(val) {
-                if (val) {
-                    this.getTodayReport()
-                }
-            },
+        active(val) {
+            if (val) {
+                this.getTodayReport()
+            }
         },
     },
     methods: {
-        async getDateReportInfo() {
+        isInGuildWarTime() {
             const maxDate = transformDate(getMaxDate(this.vaildDateList))
             if (isTimeDifferenceLessOneDay(maxDate)) {
                 this.today = maxDate
             }
+        },
+        async getDateReportInfo() {
+            this.isInGuildWarTime()
             for (const date of this.vaildDateList) {
                 if (!this.guild.dateReport.has(date)) {
                     const {

@@ -1,5 +1,4 @@
 import { getGuildDailyReport, getRank } from '../../api/'
-import { transformDate, getMaxDate } from '../../utils/'
 
 const guild = {
     namespaced: true,
@@ -8,10 +7,10 @@ const guild = {
         constellationName: '',
         rank: 0,
         guildName: '',
-        currentDate: '',
         dateList: [],
         bossList: [],
         dateReport: new Map(),
+        dateReportTracker: 0,
     },
     mutations: {
         setMonth(state, month) {
@@ -26,9 +25,6 @@ const guild = {
         setGuildName(state, guildName) {
             state.guildName = guildName
         },
-        setCurrentDate(state, currentDate) {
-            state.currentDate = currentDate
-        },
         setDateList(state, dateList) {
             state.dateList = dateList
         },
@@ -37,6 +33,7 @@ const guild = {
         },
         setDateReport(state, { key, value }) {
             state.dateReport.set(key, value)
+            state.dateReportTracker += 1
         },
     },
     actions: {
@@ -56,28 +53,18 @@ const guild = {
                     },
                 },
             } = await getGuildDailyReport()
-            const getMonth = (dateList) => {
-                const date = new Date(Math.min(...dateList.map((item) => new Date(item))))
-                return date.getMonth() + 1
-            }
             const month = getMonth(day_list)
-            const currentDate = getCurrentDate(day_list)
             commit('setMonth', month)
             commit('setConstellationName', constellationName)
             commit('setGuildName', guildName)
-            commit('setCurrentDate', currentDate)
             commit('setDateList', day_list)
         },
     },
 }
 
-function getCurrentDate(dateList) {
-    let date = transformDate(new Date())
-    if (!dateList.includes(date)) {
-        const maxDate = getMaxDate(dateList)
-        date = transformDate(maxDate)
-    }
-    return date
+function getMonth(dateList) {
+    const date = new Date(Math.min(...dateList.map((item) => new Date(item))))
+    return date.getMonth() + 1
 }
 
 export default guild

@@ -29,6 +29,7 @@ export default {
     methods: {
         exportReport() {
             for (const name of this.checkedList) {
+                this.loading = true
                 if (name == '个人总结') {
                     let report = document.getElementById('myReport')
                     if (report) {
@@ -50,7 +51,6 @@ export default {
             a.click()
         },
         exportMyReport(report) {
-            this.loading = true
             const node = report.parentNode
             node.style.display = 'block'
             node.style.position = 'absolute'

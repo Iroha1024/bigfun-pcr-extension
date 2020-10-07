@@ -17,13 +17,15 @@
 import { getSimilarString } from '../utils/'
 import { getUser } from '../api/'
 import { getDateReportMixin } from '../mixin/getDateReport'
+import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import Echarts from './Echarts'
 
 import { mapState } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
-    mixins: [getDateReportMixin],
+    mixins: [getDateReportMixin, getUserInfoMixin],
     components: {
         Echarts,
     },
@@ -39,14 +41,32 @@ export default {
             options: null,
         }
     },
+    watch: {
+        'guild.dateReportTracker': {
+            handler: debounce(function () {
+                this.setOptions()
+            }, 500),
+            immediate: true,
+        },
+    },
     async created() {
-        await this.setUserName()
+        this.setUserName()
         await this.getDateReportInfo()
-        this.setOptions()
     },
     methods: {
         setUserName() {
-            this.currentUserName = this.user.username
+            const unwatch = this.$watch(
+                'user.username',
+                (name) => {
+                    if (name.length > 0) {
+                        this.currentUserName = name
+                        if (unwatch) {
+                            unwatch()
+                        }
+                    }
+                },
+                { immediate: true }
+            )
         },
         handleChange(value) {
             this.currentUserName = value

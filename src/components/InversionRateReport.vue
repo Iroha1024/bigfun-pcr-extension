@@ -6,11 +6,13 @@
 
 <script>
 import Echarts from './Echarts'
+import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 
 export default {
+    mixins: [getUserInfoMixin],
     components: {
         Echarts,
     },
@@ -24,8 +26,11 @@ export default {
             options: null,
         }
     },
-    created() {
-        this.setOptions()
+    watch: {
+        'user.userInfoList': {
+            handler: 'setOptions',
+            immediate: true,
+        },
     },
     methods: {
         setOptions() {

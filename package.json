@@ -13,6 +13,7 @@
     "dom-to-image": "^2.6.0",
     "echarts": "^4.9.0",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
     "string-similarity": "^4.0.2",
     "vue": "^2.6.11",
     "vuex": "^3.5.1"
