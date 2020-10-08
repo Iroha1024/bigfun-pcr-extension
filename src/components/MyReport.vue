@@ -118,7 +118,7 @@ export default {
         setOptions() {
             const series = []
             const map = new Map(this.guild.bossList.map((bossName) => [bossName, 0]))
-            for (const [date, data] of [...this.guild.dateReport].reverse()) {
+            for (const [date, data] of [...this.guild.dateReport]) {
                 if (data.length < 1) continue
                 const { damage_list } = data.find(({ name }) => this.user.username == name)
                 damage_list.forEach(({ boss_name, damage }) => {

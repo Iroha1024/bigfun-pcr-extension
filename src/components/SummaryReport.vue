@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getSimilarString } from '../utils/'
+import { getSimilarString, dayjs } from '../utils/'
 import { getUser } from '../api/'
 import { getDateReportMixin } from '../mixin/getDateReport'
 import { getUserInfoMixin } from '../mixin/getUserInfo'
@@ -74,7 +74,9 @@ export default {
         },
         setOptions() {
             const series = []
-            for (const [date, data] of [...this.guild.dateReport].reverse()) {
+            for (const [date, data] of [...this.guild.dateReport].sort(
+                (a, b) => dayjs(a[0]) - dayjs(b[0])
+            )) {
                 if (data.length < 1) continue
                 const { damage_list } = data.find(({ name }) => this.currentUserName == name)
                 damage_list.forEach(({ boss_name, damage }) => {
