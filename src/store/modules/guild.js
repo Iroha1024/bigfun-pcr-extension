@@ -1,4 +1,5 @@
 import { getGuildDailyReport, getRank } from '../../api/'
+import { getMinDate } from '../../utils/'
 
 const guild = {
     namespaced: true,
@@ -63,8 +64,8 @@ const guild = {
 }
 
 function getMonth(dateList) {
-    const date = new Date(Math.min(...dateList.map((item) => new Date(item))))
-    return date.getMonth() + 1
+    const date = getMinDate(dateList)
+    return date.month() + 1
 }
 
 export default guild

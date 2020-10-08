@@ -11,7 +11,7 @@
 
 <script>
 import { getDateReport, getBossReport } from '../api/'
-import { isTimeDifferenceLessOneDay, getSimilarString, getMaxDate, transformDate } from '../utils/'
+import { isToday, getSimilarString, getMaxDate, formatDate, dayjs } from '../utils/'
 
 import Echarts from './Echarts'
 
@@ -47,10 +47,10 @@ export default {
                 'guild.dateList',
                 (dateList) => {
                     if (dateList.length > 0) {
-                        let date = transformDate(new Date())
+                        let date = formatDate(dayjs.tz())
                         if (!dateList.includes(date)) {
                             const maxDate = getMaxDate(dateList)
-                            this.currentDate = transformDate(maxDate)
+                            this.currentDate = formatDate(maxDate)
                         }
                         if (unwatch) {
                             unwatch()
@@ -80,10 +80,7 @@ export default {
         },
         async handleChange(value) {
             this.currentDate = value
-            if (
-                !this.guild.dateReport.has(this.currentDate) ||
-                isTimeDifferenceLessOneDay(new Date(this.currentDate))
-            ) {
+            if (!this.guild.dateReport.has(this.currentDate) || isToday(this.currentDate)) {
                 await this.getDateReportInfo()
             }
             this.setOptions()

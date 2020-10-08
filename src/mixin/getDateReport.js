@@ -1,4 +1,4 @@
-import { getMaxDate, isTimeDifferenceLessOneDay, transformDate } from '../utils/'
+import { getMaxDate, isToday, formatDate, dayjs } from '../utils/'
 import { getDateReport } from '../api/'
 
 const getDateReportMixin = {
@@ -10,7 +10,7 @@ const getDateReportMixin = {
     },
     computed: {
         vaildDateList() {
-            return this.guild.dateList.filter((item) => new Date() > new Date(item))
+            return this.guild.dateList.filter((item) => dayjs.tz() > dayjs(item))
         },
     },
     watch: {
@@ -22,9 +22,9 @@ const getDateReportMixin = {
     },
     methods: {
         isInGuildWarTime() {
-            const maxDate = transformDate(getMaxDate(this.vaildDateList))
-            if (isTimeDifferenceLessOneDay(maxDate)) {
-                this.today = maxDate
+            const maxDate = getMaxDate(this.vaildDateList)
+            if (isToday(maxDate)) {
+                this.today = formatDate(maxDate)
             }
         },
         async getDateReportInfo() {
