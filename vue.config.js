@@ -1,5 +1,6 @@
 const path = require('path')
 const { IgnorePlugin } = require('webpack')
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
