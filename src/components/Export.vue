@@ -15,6 +15,7 @@
 
 <script>
 import bus from '../event-bus'
+import { download } from '../utils/'
 
 import domtoimage from 'dom-to-image'
 
@@ -44,12 +45,6 @@ export default {
                 }
             }
         },
-        download(url, name) {
-            const a = document.createElement('a')
-            a.href = url
-            a.download = name
-            a.click()
-        },
         exportMyReport(report) {
             const node = report.parentNode
             node.style.display = 'block'
@@ -60,7 +55,7 @@ export default {
                     this.loading = false
                     node.style.display = 'none'
                     node.style.position = 'static'
-                    this.download(url, 'report.png')
+                    download(url, 'report.png')
                 })
                 .catch(() => {
                     this.loading = false

@@ -31,6 +31,7 @@ import SummaryReport from './SummaryReport'
 import InversionRateReport from './InversionRateReport'
 import MyReport from './MyReport'
 import Export from './Export'
+import About from './About'
 
 export default {
     components: {
@@ -71,6 +72,12 @@ export default {
                     name: '导出',
                     key: '4',
                     component: Export,
+                    forceRender: false,
+                },
+                {
+                    name: '关于',
+                    key: '5',
+                    component: About,
                     forceRender: false,
                 },
             ],
