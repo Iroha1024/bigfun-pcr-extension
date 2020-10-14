@@ -11,9 +11,9 @@
             下载
         </a-button>
         <div class="icon">
-            <a href="https://github.com/Iroha1024/bigfun-pcr-extension" target="_blank"
-                ><a-icon type="github"
-            /></a>
+            <a href="https://github.com/Iroha1024/bigfun-pcr-extension" target="_blank">
+                <a-icon type="github" />
+            </a>
         </div>
     </div>
 </template>
