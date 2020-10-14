@@ -2,10 +2,10 @@
     <div class="export">
         <a-checkbox-group v-model="checkedList" :options="checkBoxList"></a-checkbox-group>
         <a-button
-            icon="export"
-            :loading="loading"
-            type="primary"
             class="button"
+            icon="export"
+            type="primary"
+            :loading="loading"
             @click="exportReport"
         >
             导出

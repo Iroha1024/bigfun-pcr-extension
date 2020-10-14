@@ -1,16 +1,16 @@
 <template>
     <div id="bigfun-pcr-extension">
         <img :src="url" alt="extension button" class="button" @click="toggleModal" />
-        <main-interface :isVisible="isVisible" :toggleModal="toggleModal"></main-interface>
+        <home :isVisible="isVisible" :toggleModal="toggleModal"></home>
     </div>
 </template>
 
 <script>
-import MainInterface from './components/MainInterface'
+import Home from './views/Home'
 
 export default {
     components: {
-        MainInterface,
+        Home,
     },
     data() {
         return {
