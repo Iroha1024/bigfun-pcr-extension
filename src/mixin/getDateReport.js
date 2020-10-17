@@ -33,7 +33,7 @@ const getDateReportMixin = {
                 if (!this.guild.dateReport.has(date)) {
                     const {
                         data: { data },
-                    } = await getDateReport(date)
+                    } = await getDateReport(date, this.guild.currentBattleId)
                     this.$store.commit('guild/setDateReport', { key: date, value: data })
                 }
             }
@@ -42,7 +42,7 @@ const getDateReportMixin = {
             if (this.today) {
                 const {
                     data: { data },
-                } = await getDateReport(this.today)
+                } = await getDateReport(this.today, this.guild.currentBattleId)
                 this.$store.commit('guild/setDateReport', { key: this.today, value: data })
             }
         },

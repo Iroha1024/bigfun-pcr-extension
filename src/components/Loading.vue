@@ -28,7 +28,6 @@ export default {
             const components = [Plane, RotateSquare, Origami, Socket]
             const len = components.length
             const index = ~~(Math.random() * len)
-            console.log(index)
             return components[index]
         },
     },

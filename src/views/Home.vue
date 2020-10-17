@@ -1,27 +1,30 @@
 <template>
     <a-modal
-        :bodyStyle="{ padding: '24px 40px' }"
         centered
+        :closable="false"
         :footer="null"
         :visible="isVisible"
         width="auto"
         @cancel="toggleModal"
     >
-        <a-tabs v-model="activeKey">
-            <a-tab-pane
-                v-for="item of tabList"
-                :key="item.key"
-                :tab="item.name"
-                :forceRender="item.forceRender"
-            >
-                <component
-                    v-show="activeKey == item.key"
-                    :is="item.component"
-                    :active="activeKey == item.key"
-                    @export="forceRender"
-                ></component>
-            </a-tab-pane>
-        </a-tabs>
+        <Loading :loading="loading">
+            <Select v-if="!isSelected"></Select>
+            <a-tabs v-else v-model="activeKey">
+                <a-tab-pane
+                    v-for="item of tabList"
+                    :key="item.key"
+                    :tab="item.name"
+                    :forceRender="item.forceRender"
+                >
+                    <component
+                        v-show="activeKey == item.key"
+                        :is="item.component"
+                        :active="activeKey == item.key"
+                        @export="forceRender"
+                    ></component>
+                </a-tab-pane>
+            </a-tabs>
+        </Loading>
     </a-modal>
 </template>
 
@@ -32,8 +35,16 @@ import InversionRateReport from '../components/InversionRateReport'
 import MyReport from '../components/MyReport'
 import Export from '../components/Export'
 import About from '../components/About'
+import Loading from '../components/Loading'
+import Select from '../components/Select'
+
+import { mapState } from 'vuex'
 
 export default {
+    components: {
+        Loading,
+        Select,
+    },
     props: ['isVisible', 'toggleModal'],
     data() {
         return {
@@ -76,12 +87,39 @@ export default {
                 },
             ],
             activeKey: '0',
+            loading: true,
         }
     },
-    created() {
-        this.$store.dispatch('user/getUserName')
-        this.$store.dispatch('user/getUserInfoList')
-        this.$store.dispatch('guild/getInfo')
+    computed: {
+        ...mapState({
+            guild: (state) => state.guild,
+        }),
+        isSelected() {
+            return this.guild.currentBattleId != null
+        },
+    },
+    watch: {
+        async 'guild.currentBattleId'(val) {
+            if (val != null) {
+                this.loading = true
+                try {
+                    await this.$store.dispatch('guild/getBattleInfo')
+                } catch (error) {
+                    await this.$store.commit('guild/setCurrentBattleId', null)
+                    await this.$message.error(error)
+                } finally {
+                    this.loading = false
+                }
+            }
+        },
+    },
+    async created() {
+        await Promise.all([
+            this.$store.dispatch('guild/getBattleListInfo'),
+            this.$store.dispatch('user/getUserName'),
+            this.$store.dispatch('user/getUserInfoList'),
+        ])
+        this.loading = false
     },
     methods: {
         forceRender(name) {

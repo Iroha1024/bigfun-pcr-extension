@@ -1,4 +1,4 @@
-import { getGuildDailyReport, getRank } from '../../api/'
+import { getGuildDailyReport, getRank, getBattleList } from '../../api/'
 import { getMinDate } from '../../utils/'
 
 const guild = {
@@ -12,6 +12,8 @@ const guild = {
         bossList: [],
         dateReport: new Map(),
         dateReportTracker: 0,
+        battleList: [],
+        currentBattleId: null,
     },
     mutations: {
         setMonth(state, month) {
@@ -36,29 +38,45 @@ const guild = {
             state.dateReport.set(key, value)
             state.dateReportTracker += 1
         },
+        setBattleList(state, battleList) {
+            state.battleList = battleList
+        },
+        setCurrentBattleId(state, id) {
+            state.currentBattleId = id
+        },
     },
     actions: {
-        async getInfo({ commit }) {
+        async getBattleListInfo({ commit }) {
+            const {
+                data: { data },
+            } = await getBattleList()
+            commit('setBattleList', data)
+        },
+        async getBattleInfo({ commit, state }) {
             const {
                 data: {
                     data: { rank },
                 },
             } = await getRank()
             commit('setRank', rank)
-            const {
-                data: {
+            try {
+                const {
                     data: {
-                        battle_info: { name: constellationName },
-                        clan_info: { name: guildName },
-                        day_list,
+                        data: {
+                            battle_info: { name: constellationName },
+                            clan_info: { name: guildName },
+                            day_list,
+                        },
                     },
-                },
-            } = await getGuildDailyReport()
-            const month = getMonth(day_list)
-            commit('setMonth', month)
-            commit('setConstellationName', constellationName)
-            commit('setGuildName', guildName)
-            commit('setDateList', day_list)
+                } = await getGuildDailyReport(state.currentBattleId)
+                const month = getMonth(day_list)
+                commit('setMonth', month)
+                commit('setConstellationName', constellationName)
+                commit('setGuildName', guildName)
+                commit('setDateList', day_list)
+            } catch {
+                return Promise.reject('当前公会战信息尚未公开')
+            }
         },
     },
 }

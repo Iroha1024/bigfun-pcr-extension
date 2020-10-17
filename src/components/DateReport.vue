@@ -65,13 +65,13 @@ export default {
                 data: {
                     data: { boss_list },
                 },
-            } = await getBossReport()
+            } = await getBossReport(this.guild.currentBattleId)
             this.$store.commit('guild/setBossList', boss_list)
         },
         async getDateReportInfo() {
             const {
                 data: { data },
-            } = await getDateReport(this.currentDate)
+            } = await getDateReport(this.currentDate, this.guild.currentBattleId)
             this.$store.commit('guild/setDateReport', {
                 key: this.currentDate,
                 value: data,
