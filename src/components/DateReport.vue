@@ -24,7 +24,6 @@ export default {
     async created() {
         this.getCurrentDate()
         await this.getBossReportInfo()
-        await this.getDateReportInfo()
         this.setOptions()
     },
     data() {
@@ -43,22 +42,13 @@ export default {
     },
     methods: {
         getCurrentDate() {
-            const unwatch = this.$watch(
-                'guild.dateList',
-                (dateList) => {
-                    if (dateList.length > 0) {
-                        let date = formatDate(dayjs.tz())
-                        if (!dateList.includes(date)) {
-                            const maxDate = getMaxDate(dateList)
-                            this.currentDate = formatDate(maxDate)
-                        }
-                        if (unwatch) {
-                            unwatch()
-                        }
-                    }
-                },
-                { immediate: true }
-            )
+            let date = formatDate(dayjs.tz())
+            if (this.guild.dateList.includes(date)) {
+                this.currentDate = date
+            } else {
+                const maxDate = getMaxDate(this.guild.dateList)
+                this.currentDate = formatDate(maxDate)
+            }
         },
         async getBossReportInfo() {
             const {

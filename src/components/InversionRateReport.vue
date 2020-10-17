@@ -6,19 +6,17 @@
 
 <script>
 import Echarts from './Echarts'
-import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 
 export default {
-    mixins: [getUserInfoMixin],
     components: {
         Echarts,
     },
     computed: {
         ...mapState({
-            user: (state) => state.user,
+            guild: (state) => state.guild,
         }),
     },
     data() {
@@ -27,19 +25,21 @@ export default {
         }
     },
     watch: {
-        'user.userInfoList': {
+        'guild.userReportData': {
             handler: 'setOptions',
             immediate: true,
         },
     },
     methods: {
         setOptions() {
-            const userInfoList = cloneDeep(this.user.userInfoList).sort((a, b) => a.rate - b.rate)
+            const userReportData = cloneDeep(this.guild.userReportData).sort(
+                (a, b) => a.rate - b.rate
+            )
             const series = [
                 {
                     name: '转化率',
                     type: 'bar',
-                    data: userInfoList.map(({ rate }) => rate),
+                    data: userReportData.map(({ rate }) => rate),
                 },
             ]
             this.options = {
@@ -70,7 +70,7 @@ export default {
                     {
                         type: 'category',
                         axisTick: { show: false },
-                        data: userInfoList.map(({ username }) => username),
+                        data: userReportData.map(({ name }) => name),
                     },
                 ],
                 yAxis: [

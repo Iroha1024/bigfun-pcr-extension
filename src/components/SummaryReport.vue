@@ -2,11 +2,11 @@
     <div>
         <a-select :value="currentUserName" style="width: 200px" @change="handleChange">
             <a-select-option
-                :value="user.username"
-                v-for="(user, index) of user.userInfoList"
+                :value="user.name"
+                v-for="(user, index) of guild.userReportData"
                 :key="index"
             >
-                {{ user.username }}
+                {{ user.name }}
             </a-select-option>
         </a-select>
         <echarts :options="options" type="chart"></echarts>
@@ -16,16 +16,12 @@
 <script>
 import { getSimilarString, dayjs } from '../utils/'
 import { getUser } from '../api/'
-import { getDateReportMixin } from '../mixin/getDateReport'
-import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import Echarts from './Echarts'
 
 import { mapState } from 'vuex'
-import debounce from 'lodash.debounce'
 
 export default {
-    mixins: [getDateReportMixin, getUserInfoMixin],
     components: {
         Echarts,
     },
@@ -43,30 +39,16 @@ export default {
     },
     watch: {
         'guild.dateReportTracker': {
-            handler: debounce(function () {
-                this.setOptions()
-            }, 500),
-            immediate: true,
+            handler: 'setOptions',
         },
     },
-    async created() {
+    created() {
         this.setUserName()
-        await this.getDateReportInfo()
+        this.setOptions()
     },
     methods: {
         setUserName() {
-            const unwatch = this.$watch(
-                'user.username',
-                (name) => {
-                    if (name.length > 0) {
-                        this.currentUserName = name
-                        if (unwatch) {
-                            unwatch()
-                        }
-                    }
-                },
-                { immediate: true }
-            )
+            this.currentUserName = this.user.username
         },
         handleChange(value) {
             this.currentUserName = value

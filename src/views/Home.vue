@@ -1,11 +1,13 @@
 <template>
     <a-modal
         centered
+        class="modal"
         :closable="false"
         :footer="null"
         :visible="isVisible"
         width="auto"
         @cancel="toggleModal"
+        @contextmenu.native.prevent="refresh"
     >
         <Loading :loading="loading">
             <Select v-if="!isSelected"></Select>
@@ -104,6 +106,7 @@ export default {
                 this.loading = true
                 try {
                     await this.$store.dispatch('guild/getBattleInfo')
+                    await this.$store.dispatch('guild/getDateReportInfo')
                 } catch (error) {
                     await this.$store.commit('guild/setCurrentBattleId', null)
                     await this.$message.error(error)
@@ -117,7 +120,6 @@ export default {
         await Promise.all([
             this.$store.dispatch('guild/getBattleListInfo'),
             this.$store.dispatch('user/getUserName'),
-            this.$store.dispatch('user/getUserInfoList'),
         ])
         this.loading = false
     },
@@ -126,8 +128,17 @@ export default {
             const component = this.tabList.find((tab) => tab.name == name)
             component.forceRender = true
         },
+        async refresh() {
+            this.loading = true
+            await this.$store.dispatch('guild/refreshDateReport')
+            this.loading = false
+        },
     },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.modal {
+    user-select: none;
+}
+</style>

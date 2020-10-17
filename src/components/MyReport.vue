@@ -57,17 +57,13 @@
 
 <script>
 import { getSimilarString } from '../utils/'
-import { getDateReportMixin } from '../mixin/getDateReport'
-import { getUserInfoMixin } from '../mixin/getUserInfo'
 
 import Echarts from './Echarts'
 
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
-import debounce from 'lodash.debounce'
 
 export default {
-    mixins: [getDateReportMixin, getUserInfoMixin],
     components: {
         Echarts,
     },
@@ -86,15 +82,12 @@ export default {
             return this.sortThenReturnValue((a, b) => b.rate - a.rate, 'rate')
         },
         ChallengeSum() {
-            return this.user.userInfoList.find(({ username }) => username == this.user.username)
-                ?.ChallengeSum
+            return this.guild.userReportData.find(({ name }) => name == this.user.username).number
         },
     },
     watch: {
         'guild.dateReportTracker': {
-            handler: debounce(function () {
-                this.setOptions()
-            }, 500),
+            handler: 'setOptions',
             immediate: true,
         },
     },
@@ -106,18 +99,16 @@ export default {
             signUrl: browser.runtime.getURL('icons/karin.png'),
         }
     },
-    async created() {
-        await this.getDateReportInfo()
-    },
     methods: {
         sortThenReturnValue(sort, property) {
-            if (this.user.userInfoList.length < 1)
+            if (this.guild.userReportData.length < 1) {
                 return {
                     index: 0,
                     value: 0,
                 }
-            const newArr = cloneDeep(this.user.userInfoList).sort(sort)
-            const user = newArr.find(({ username }) => username == this.user.username)
+            }
+            const newArr = cloneDeep(this.guild.userReportData).sort(sort)
+            const user = newArr.find(({ name }) => name == this.user.username)
             const index = newArr.indexOf(user) + 1
             const value = user[property]
             return {
@@ -183,7 +174,6 @@ export default {
     height: 500px;
     padding: 0 50px;
     overflow-y: scroll;
-    user-select: none;
     * {
         font-family: KaiTi;
     }

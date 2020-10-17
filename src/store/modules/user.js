@@ -1,17 +1,13 @@
-import { getUser, getGuildSummaryReport } from '../../api/'
+import { getUser } from '../../api/'
 
 const user = {
     namespaced: true,
     state: {
         username: '',
-        userInfoList: [],
     },
     mutations: {
         setUserName(state, username) {
             state.username = username
-        },
-        setUserInfoList(state, userInfoList) {
-            state.userInfoList = userInfoList
         },
     },
     actions: {
@@ -22,21 +18,6 @@ const user = {
                 },
             } = await getUser()
             commit('setUserName', player_name)
-        },
-        async getUserInfoList({ commit }) {
-            const {
-                data: {
-                    data: { data },
-                },
-            } = await getGuildSummaryReport()
-            const userInfoList = data.map(({ username, damage, score, number }) => ({
-                username,
-                damage,
-                score,
-                rate: parseFloat((score / damage).toFixed(3)),
-                ChallengeSum: number,
-            }))
-            commit('setUserInfoList', userInfoList)
         },
     },
 }

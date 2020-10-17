@@ -17,11 +17,6 @@ dayjs.tz.setDefault('Asia/Shanghai')
  */
 export const getMaxDate = (dateList) => dayjs.max(...dateList.map((date) => dayjs(date)))
 
-/**
- * @param {string[]} dateList
- */
-export const getMinDate = (dateList) => dayjs.min(...dateList.map((date) => dayjs(date)))
-
 export const isToday = (date) => dayjs(date).isToday()
 
 export const formatDate = (date) => dayjs(date).format('YYYY-MM-DD')

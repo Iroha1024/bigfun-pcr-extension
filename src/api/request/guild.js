@@ -3,18 +3,6 @@ import { instance } from '../axios'
 //团队战排名
 
 /**
- * data: {  rank: 排名, }
- *
- * https://www.bigfun.cn/api/feweb?target=gzlj-my-clan%2Fa
- */
-export const getRank = () => {
-    const url = '/feweb?target=gzlj-my-clan%2Fa'
-    return instance.get(url)
-}
-
-// 公会日表
-
-/**
  * data: [{ id: 公会战id }]
  *
  * https://www.bigfun.cn/api/feweb?target=gzlj-clan-battle-list%2Fa
@@ -23,6 +11,8 @@ export const getBattleList = () => {
     const url = '/feweb?target=gzlj-clan-battle-list%2Fa'
     return instance.get(url)
 }
+
+// 公会日表
 
 /**
  * data: {battle_info: { name: 星座名, }, clan_info: { name: 公会名}, day_list: 时间}
@@ -33,8 +23,8 @@ export const getGuildDailyReport = (battleId) => {
     const url = '/feweb?target=gzlj-clan-day-report-collect%2Fa'
     return instance.get(url, {
         params: {
-            battle_id: battleId
-        }
+            battle_id: battleId,
+        },
     })
 }
 
@@ -50,8 +40,8 @@ export const getDateReport = (date, battleId) => {
             date,
             page: 1,
             size: 30,
-            battle_id: battleId
-        }
+            battle_id: battleId,
+        },
     })
 }
 
@@ -66,7 +56,20 @@ export const getBossReport = (battleId) => {
     const url = '/feweb?target=gzlj-clan-boss-report-collect%2Fa'
     return instance.get(url, {
         params: {
-            battle_id: battleId
-        }
+            battle_id: battleId,
+        },
     })
+}
+
+//公会总表
+
+/**
+ * data: { clan: { all_ranking: [{ clan_battle_name: 星座名, month: 月份, ranking: 排名 }] } }
+ *
+ * https://www.bigfun.cn/api/feweb?target=gzlj-clan-collect-report%2Fa
+ */
+
+export const getRank = () => {
+    const url = '/feweb?target=gzlj-clan-collect-report%2Fa'
+    return instance.get(url)
 }
