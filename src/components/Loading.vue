@@ -25,10 +25,12 @@ export default {
     },
     computed: {
         name() {
-            const components = [Plane, RotateSquare, Origami, Socket]
-            const len = components.length
-            const index = ~~(Math.random() * len)
-            return components[index]
+            if (this.loading) {
+                const components = [Plane, RotateSquare, Origami, Socket]
+                const len = components.length
+                const index = ~~(Math.random() * len)
+                return components[index]
+            }
         },
     },
 }
