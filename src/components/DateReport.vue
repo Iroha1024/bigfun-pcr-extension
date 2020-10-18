@@ -23,7 +23,6 @@ export default {
     },
     async created() {
         this.getCurrentDate()
-        await this.getBossReportInfo()
         this.setOptions()
     },
     data() {
@@ -50,14 +49,6 @@ export default {
                 this.currentDate = formatDate(maxDate)
             }
         },
-        async getBossReportInfo() {
-            const {
-                data: {
-                    data: { boss_list },
-                },
-            } = await getBossReport(this.guild.currentBattleId)
-            this.$store.commit('guild/setBossList', boss_list)
-        },
         async getDateReportInfo() {
             const {
                 data: { data },
@@ -70,7 +61,7 @@ export default {
         },
         async handleChange(value) {
             this.currentDate = value
-            if (!this.guild.dateReport.has(this.currentDate) || isToday(this.currentDate)) {
+            if (isToday(this.currentDate)) {
                 await this.getDateReportInfo()
             }
             this.setOptions()

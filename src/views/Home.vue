@@ -106,13 +106,15 @@ export default {
                 this.loading = true
                 try {
                     await this.$store.dispatch('guild/getBattleInfo')
-                    await this.$store.dispatch('guild/getDateReportInfo')
                 } catch (error) {
                     await this.$store.commit('guild/setCurrentBattleId', null)
-                    await this.$message.error(error)
-                } finally {
+                    await this.$message.error(error.msg)
                     this.loading = false
+                    return
                 }
+                await this.$store.dispatch('guild/getBossReportInfo')
+                await this.$store.dispatch('guild/getDateReportInfo')
+                this.loading = false
             }
         },
     },

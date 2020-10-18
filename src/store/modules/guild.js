@@ -1,10 +1,16 @@
-import { getGuildDailyReport, getRank, getBattleList, getDateReport } from '../../api/'
+import {
+    getGuildDailyReport,
+    getRank,
+    getBattleList,
+    getDateReport,
+    getBossReport,
+} from '../../api/'
 import { dayjs, getMaxDate, isToday, formatDate } from '../../utils/'
 
 const guild = {
     namespaced: true,
     state: {
-        month: 1,
+        month: 0,
         constellationName: '',
         rank: 0,
         guildName: '',
@@ -92,22 +98,33 @@ const guild = {
                 commit('setConstellationName', constellationName)
                 commit('setGuildName', guildName)
                 commit('setDateList', day_list)
-                const {
-                    data: {
-                        data: {
-                            clan: { all_ranking },
-                        },
-                    },
-                } = await getRank()
-                const battle = all_ranking.find(
-                    (item) => item.clan_battle_name == constellationName
-                )
-                const { month, ranking } = battle
-                commit('setRank', ranking)
-                commit('setMonth', month)
             } catch {
-                return Promise.reject('当前公会战信息尚未公开')
+                return Promise.reject({
+                    msg: '当前公会战信息尚未公开',
+                    type: 'error',
+                })
             }
+            const {
+                data: {
+                    data: {
+                        clan: { all_ranking },
+                    },
+                },
+            } = await getRank()
+            const battle = all_ranking.find(
+                (item) => item.clan_battle_name == state.constellationName
+            )
+            const { month, ranking } = battle
+            commit('setRank', ranking)
+            commit('setMonth', month)
+        },
+        async getBossReportInfo({ commit, state }) {
+            const {
+                data: {
+                    data: { boss_list },
+                },
+            } = await getBossReport(state.currentBattleId)
+            commit('setBossList', boss_list)
         },
         async getDateReportInfo({ commit, state }) {
             for (const date of state.vaildDateList) {
@@ -127,7 +144,6 @@ const guild = {
                 } = await getDateReport(date, state.currentBattleId)
                 commit('setDateReport', { key: date, value: data })
                 commit('setUserReportData')
-                console.log('object')
             }
         },
     },
