@@ -3,4 +3,5 @@ export { default as ExportOutline } from '@ant-design/icons/lib/outline/ExportOu
 export { default as LoadingOutline } from '@ant-design/icons/lib/outline/LoadingOutline'
 export { default as DownloadOutline } from '@ant-design/icons/lib/outline/DownloadOutline'
 export { default as GithubOutline } from '@ant-design/icons/lib/outline/GithubOutline'
+export { default as UpOutline } from '@ant-design/icons/lib/outline/UpOutline'
 export { default as CloseCircleFill } from '@ant-design/icons/lib/fill/CloseCircleFill'
