@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service build --mode development --watch",
     "build": "vue-cli-service build",
-    "format": "prettier --write \"src/**/*\""
+    "format": "prettier --write \"src/**/*\"",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
     "ant-design-vue": "^1.6.5",
@@ -23,6 +24,7 @@
     "@vue/cli-plugin-babel": "^4.5.6",
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-import": "^1.13.0",
+    "conventional-changelog-cli": "^2.1.0",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.2",
     "sass-loader": "^8.0.2",
