@@ -68,12 +68,7 @@ export default {
 <style lang="scss" scoped>
 .select {
     width: 300px;
-    overflow-y: scroll;
     text-align: center;
-    &::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-    }
     i {
         font-size: 20px;
     }
