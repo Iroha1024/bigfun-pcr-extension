@@ -5,3 +5,5 @@ export { default as DownloadOutline } from '@ant-design/icons/lib/outline/Downlo
 export { default as GithubOutline } from '@ant-design/icons/lib/outline/GithubOutline'
 export { default as UpOutline } from '@ant-design/icons/lib/outline/UpOutline'
 export { default as CloseCircleFill } from '@ant-design/icons/lib/fill/CloseCircleFill'
+export { default as LeftOutline } from '@ant-design/icons/lib/outline/LeftOutline'
+export { default as RightOutline } from '@ant-design/icons/lib/outline/RightOutline'

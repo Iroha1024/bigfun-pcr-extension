@@ -15,5 +15,6 @@
     "scripts": ["js/background.js"],
     "persistent": false
   },
-  "web_accessible_resources": ["icons/*.png"]
+  "web_accessible_resources": ["icons/*.png"],
+  "permissions": ["storage"]
 }

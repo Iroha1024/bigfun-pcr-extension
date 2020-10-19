@@ -10,7 +10,7 @@
         @contextmenu.native.prevent="refresh"
     >
         <Loading :loading="loading">
-            <Select v-if="!isSelected"></Select>
+            <Select v-if="!isSelected" :type="1"></Select>
             <a-tabs v-else v-model="activeKey">
                 <a-tab-pane
                     v-for="item of tabList"
@@ -39,8 +39,10 @@ import Export from '../components/Export'
 import About from '../components/About'
 import Loading from '../components/Loading'
 import Select from '../components/Select'
+import Setting from '../components/Setting'
 
 import { mapState } from 'vuex'
+import clonedeep from 'lodash.clonedeep'
 
 export default {
     components: {
@@ -87,6 +89,12 @@ export default {
                     component: About,
                     forceRender: false,
                 },
+                {
+                    name: '设置',
+                    key: '6',
+                    component: Setting,
+                    forceRender: false,
+                },
             ],
             activeKey: '0',
             loading: true,
@@ -124,6 +132,7 @@ export default {
             this.$store.dispatch('user/getUserName'),
         ])
         this.loading = false
+        this.autoComplete()
     },
     methods: {
         forceRender(name) {
@@ -134,6 +143,16 @@ export default {
             this.loading = true
             await this.$store.dispatch('guild/refreshDateReport')
             this.loading = false
+        },
+        autoComplete() {
+            chrome.storage.sync.get('autoComplete', ({ autoComplete }) => {
+                if (autoComplete) {
+                    const battleList = clonedeep(this.guild.battleList)
+                    battleList.sort((a, b) => Number(a.id) - Number(b.id))
+                    const battle = battleList.pop()
+                    this.$store.commit('guild/setCurrentBattleId', battle.id)
+                }
+            })
         },
     },
 }
