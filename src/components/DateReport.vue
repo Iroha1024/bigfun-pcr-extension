@@ -1,7 +1,11 @@
 <template>
     <div>
         <a-select :value="currentDate" style="width: 120px" @change="handleChange">
-            <a-select-option :value="date" v-for="(date, index) of guild.vaildDateList" :key="index">
+            <a-select-option
+                :value="date"
+                v-for="(date, index) of guild.vaildDateList"
+                :key="index"
+            >
                 {{ date }}
             </a-select-option>
         </a-select>

@@ -70,10 +70,9 @@ const guild = {
                             number,
                         })
                     }
-
                 }
             }
-            temp.forEach(user => {
+            temp.forEach((user) => {
                 user.rate = parseFloat((user.score / user.damage).toFixed(3))
                 if (isNaN(user.rate)) user.rate = 0
             })

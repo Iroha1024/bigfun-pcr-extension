@@ -56,6 +56,7 @@ export default {
 <style lang="scss" scoped>
 .setting {
     font-size: 15px;
+    height: 300px;
     .period-num {
         display: flex;
         align-items: center;

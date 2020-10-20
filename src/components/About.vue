@@ -54,6 +54,7 @@ export default {
 <style lang="scss" scoped>
 .about {
     position: relative;
+    height: 300px;
     .icon {
         position: absolute;
         bottom: 0;
