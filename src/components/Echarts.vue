@@ -42,6 +42,7 @@ export default {
             this.$watch(
                 'options',
                 (options) => {
+                    this.chart.clear()
                     this.setOption(options)
                 },
                 {

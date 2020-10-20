@@ -61,19 +61,22 @@ const guild = {
                     if (user) {
                         user.damage += damage
                         user.score += score
-                        user.rate = parseFloat((user.score / user.damage).toFixed(3))
                         user.number += number
                     } else {
                         temp.push({
                             name,
                             damage,
                             score,
-                            rate: parseFloat((score / damage).toFixed(3)),
                             number,
                         })
                     }
+
                 }
             }
+            temp.forEach(user => {
+                user.rate = parseFloat((user.score / user.damage).toFixed(3))
+                if (isNaN(user.rate)) user.rate = 0
+            })
             state.userReportData = temp
         },
     },

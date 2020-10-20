@@ -82,7 +82,7 @@ export default {
             return this.sortThenReturnValue((a, b) => b.rate - a.rate, 'rate')
         },
         ChallengeSum() {
-            return this.guild.userReportData.find(({ name }) => name == this.user.username).number
+            return this.guild.userReportData.find(({ name }) => name == this.user.username)?.number || 0
         },
     },
     watch: {
