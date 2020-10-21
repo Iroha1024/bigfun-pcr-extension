@@ -15,7 +15,7 @@
 
 <script>
 import { getDateReport, getBossReport } from '../api/'
-import { isToday, getSimilarString, getMaxDate, formatDate, dayjs } from '../utils/'
+import { isSameDate, getSimilarString, getMaxDate, formatDate, getTrueDate } from '../utils/'
 
 import Echarts from './Echarts'
 
@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         getCurrentDate() {
-            let date = formatDate(dayjs.tz())
+            const date = formatDate(getTrueDate())
             if (this.guild.dateList.includes(date)) {
                 this.currentDate = date
             } else {
@@ -65,7 +65,7 @@ export default {
         },
         async handleChange(value) {
             this.currentDate = value
-            if (isToday(this.currentDate)) {
+            if (isSameDate(this.currentDate)) {
                 await this.getDateReportInfo()
             }
             this.setOptions()

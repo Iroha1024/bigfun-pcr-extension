@@ -5,7 +5,7 @@ import {
     getDateReport,
     getBossReport,
 } from '../../api/'
-import { dayjs, getMaxDate, isToday, formatDate } from '../../utils/'
+import { dayjs, formatDate, getTrueDate } from '../../utils/'
 
 const guild = {
     namespaced: true,
@@ -38,7 +38,9 @@ const guild = {
         },
         setDateList(state, dateList) {
             state.dateList = dateList
-            state.vaildDateList = dateList.filter((item) => dayjs.tz() > dayjs(item))
+        },
+        setVaildDateList(state) {
+            state.vaildDateList = state.dateList.filter((item) => getTrueDate() > dayjs(item))
         },
         setBossList(state, bossList) {
             state.bossList = bossList.map((boos) => boos.boss_name)
@@ -86,7 +88,7 @@ const guild = {
             } = await getBattleList()
             commit('setBattleList', data)
         },
-        async getBattleInfo({ commit, state }) {
+        async getBattleInfo({ dispatch, commit, state }) {
             try {
                 const {
                     data: {
@@ -100,12 +102,16 @@ const guild = {
                 commit('setConstellationName', constellationName)
                 commit('setGuildName', guildName)
                 commit('setDateList', day_list)
+                commit('setVaildDateList')
             } catch {
                 return Promise.reject({
                     msg: '当前公会战信息尚未公开',
                     type: 'error',
                 })
             }
+            await dispatch('getRankInfo')
+        },
+        async getRankInfo({ commit, state }) {
             const {
                 data: {
                     data: {
@@ -137,16 +143,15 @@ const guild = {
             }
             commit('setUserReportData')
         },
-        async refreshDateReport({ commit, state }) {
-            const maxDate = getMaxDate(state.vaildDateList)
-            if (isToday(maxDate)) {
-                const date = formatDate(maxDate)
-                const {
-                    data: { data },
-                } = await getDateReport(date, state.currentBattleId)
-                commit('setDateReport', { key: date, value: data })
-                commit('setUserReportData')
-            }
+        async refreshDateReport({ dispatch, commit, state }) {
+            commit('setVaildDateList')
+            await dispatch('getRankInfo')
+            const date = formatDate(getTrueDate())
+            const {
+                data: { data },
+            } = await getDateReport(date, state.currentBattleId)
+            commit('setDateReport', { key: date, value: data })
+            commit('setUserReportData')
         },
     },
 }
