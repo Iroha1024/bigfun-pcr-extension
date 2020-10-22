@@ -1,3 +1,18 @@
+## [0.3.1](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.0...v0.3.1) (2020-10-22)
+
+
+### Bug Fixes
+
+* 修复凌晨时date错误 ([3387578](https://github.com/Iroha1024/bigfun-pcr-extension/commit/33875788825229ad445c14f9e79d7d5c87f0d520))
+
+
+### Features
+
+* 添加github异常处理 ([74cadcd](https://github.com/Iroha1024/bigfun-pcr-extension/commit/74cadcd5d5b12815c8c33a0dd4bfcc49fbdcf1fc))
+* 添加提示信息 ([e08d1b2](https://github.com/Iroha1024/bigfun-pcr-extension/commit/e08d1b2bcf395bfbe266566f4333e08b0e1cd637))
+
+
+
 # [0.3.0](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.2.0...v0.3.0) (2020-10-20)
 
 
