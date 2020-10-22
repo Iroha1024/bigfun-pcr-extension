@@ -11,7 +11,7 @@
     >
         <template #title v-if="isShowTip">
             <a-alert
-                message="鼠标右键刷新数据"
+                message="鼠标右键刷新数据，设置中鼠标滑轮上下滚动可切换会战期数"
                 type="info"
                 closeText="关闭"
                 :afterClose="closeTip"

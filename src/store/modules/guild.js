@@ -49,6 +49,9 @@ const guild = {
             state.dateReport.set(key, value)
             state.dateReportTracker += 1
         },
+        clearDateReport(state) {
+            state.dateReport.clear()
+        },
         setBattleList(state, battleList) {
             state.battleList = battleList
         },
@@ -135,6 +138,7 @@ const guild = {
             commit('setBossList', boss_list)
         },
         async getDateReportInfo({ commit, state }) {
+            commit('clearDateReport')
             for (const date of state.vaildDateList) {
                 const {
                     data: { data },
