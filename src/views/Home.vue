@@ -9,6 +9,14 @@
         @cancel="toggleModal"
         @contextmenu.native.prevent="refresh"
     >
+        <template #title v-if="isShowTip">
+            <a-alert
+                message="鼠标右键刷新数据"
+                type="info"
+                closeText="关闭"
+                :afterClose="closeTip"
+            />
+        </template>
         <Loading :loading="loading">
             <Select v-if="!isSelected" :type="1"></Select>
             <a-tabs v-else v-model="activeKey">
@@ -103,9 +111,13 @@ export default {
     computed: {
         ...mapState({
             guild: (state) => state.guild,
+            storage: (state) => state.storage,
         }),
         isSelected() {
             return this.guild.currentBattleId != null
+        },
+        isShowTip() {
+            return this.isSelected && this.storage.showTitleTip
         },
     },
     watch: {
@@ -122,6 +134,7 @@ export default {
                 }
                 await this.$store.dispatch('guild/getBossReportInfo')
                 await this.$store.dispatch('guild/getDateReportInfo')
+                await this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip'])
                 this.loading = false
             }
         },
@@ -152,6 +165,12 @@ export default {
                     const battle = battleList.pop()
                     this.$store.commit('guild/setCurrentBattleId', battle.id)
                 }
+            })
+        },
+        closeTip() {
+            this.$store.commit('storage/setStorage', {
+                key: 'showTitleTip',
+                value: false
             })
         },
     },

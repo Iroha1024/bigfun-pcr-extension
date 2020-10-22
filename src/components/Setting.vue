@@ -11,40 +11,54 @@
 <script>
 import Select from './Select'
 
+import { mapState } from 'vuex'
+
 export default {
     components: {
         Select,
     },
-
+    computed: {
+        ...mapState({
+            storage: (state) => state.storage,
+        }),
+    },
+    watch: {
+        storage: {
+            handler: 'update',
+            deep: true,
+            immediate: true
+        }
+    },
     data() {
         return {
-            storage: {
-                autoComplete: false,
-            },
             checkBoxList: [
                 {
                     label: '自动选择当期公会战',
                     value: 'autoComplete',
-                    onChange: (val) => {
-                        this.storage.autoComplete = !this.storage.autoComplete
-                        chrome.storage.sync.set(
-                            { autoComplete: this.storage.autoComplete },
-                            () => {}
-                        )
+                    onChange: ({ target: { checked } }) => {
+                        this.$store.commit('storage/setStorage', {
+                            key: 'autoComplete',
+                            value: checked,
+                        })
+                    },
+                },
+                {
+                    label: '显示提示信息',
+                    value: 'showTitleTip',
+                    onChange: ({ target: { checked } }) => {
+                        this.$store.commit('storage/setStorage', {
+                            key: 'showTitleTip',
+                            value: checked,
+                        })
                     },
                 },
             ],
-            checkedList: [''],
+            checkedList: [],
         }
     },
-    created() {
-        chrome.storage.sync.get(Object.keys(this.storage), ({ autoComplete }) => {
-            this.storage.autoComplete = autoComplete
-            this.init()
-        })
-    },
     methods: {
-        init() {
+        update() {
+            this.checkedList = []
             for (const key in this.storage) {
                 this.storage[key] && this.checkedList.push(key)
             }
