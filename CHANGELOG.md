@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.1...v0.3.2) (2020-10-22)
+
+
+### Bug Fixes
+
+* 修复切换公会战时dateReport错误 ([3cbebc4](https://github.com/Iroha1024/bigfun-pcr-extension/commit/3cbebc4ae7d175b05395eff0651cb3ea171d4338))
+
+
+
 ## [0.3.1](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.0...v0.3.1) (2020-10-22)
 
 
