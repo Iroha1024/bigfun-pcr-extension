@@ -32,13 +32,17 @@ export default {
         }
     },
     async created() {
-        const {
-            data: { tag_name, assets },
-        } = await getLatestRelease()
-        const { browser_download_url, name } = assets[0]
-        this.latestVer = tag_name
-        this.downloadUrl = browser_download_url
-        this.assetName = name
+        try {
+            const {
+                data: { tag_name, assets },
+            } = await getLatestRelease()
+            const { browser_download_url, name } = assets[0]
+            this.latestVer = tag_name
+            this.downloadUrl = browser_download_url
+            this.assetName = name
+        } catch {
+            this.$message.warning('获取github信息失败，请稍后重试')
+        }
     },
     computed: {
         version() {

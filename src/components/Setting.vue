@@ -26,8 +26,8 @@ export default {
         storage: {
             handler: 'update',
             deep: true,
-            immediate: true
-        }
+            immediate: true,
+        },
     },
     data() {
         return {

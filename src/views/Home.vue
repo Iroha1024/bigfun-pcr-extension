@@ -170,7 +170,7 @@ export default {
         closeTip() {
             this.$store.commit('storage/setStorage', {
                 key: 'showTitleTip',
-                value: false
+                value: false,
             })
         },
     },

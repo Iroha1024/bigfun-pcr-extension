@@ -7,9 +7,7 @@ const storage = {
     mutations: {
         setStorage(state, { key, value }) {
             state[key] = value
-            chrome.storage.sync.set({ [key]: value }, () => {
-                console.log({ [key]: value })
-            })
+            chrome.storage.sync.set({ [key]: value })
         },
     },
     actions: {
