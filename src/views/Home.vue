@@ -140,10 +140,8 @@ export default {
         },
     },
     async created() {
-        await Promise.all([
-            this.$store.dispatch('guild/getBattleListInfo'),
-            this.$store.dispatch('user/getUserName'),
-        ])
+        await this.$store.dispatch('guild/getBattleListInfo')
+        await this.$store.dispatch('user/getUserName')
         this.loading = false
         this.autoComplete()
     },

@@ -71,22 +71,20 @@ export default {
             this.setOptions()
         },
         setOptions() {
-            const series = this.guild.bossList.map((boss) => ({
-                name: boss,
-                type: 'bar',
-                data: [],
-            }))
-            let index = 0
-            for (const { damage_list } of this.guild.dateReport.get(this.currentDate)) {
-                series.forEach(({ data }) => {
-                    data[index] = 0
-                })
-                for (const { boss_name, damage } of damage_list) {
+            const series = []
+            for (const { damage_list, name } of this.guild.dateReport.get(this.currentDate)) {
+                damage_list.forEach(({ boss_name, damage, kill, reimburse }) => {
                     const bossName = getSimilarString(boss_name, this.guild.bossList)
-                    const { data } = series.find((item) => item.name == bossName)
-                    data[index] += damage
-                }
-                index++
+                    const index = this.userList.indexOf(name)
+                    const data = []
+                    data[index] = [name, damage, kill, reimburse]
+                    series.push({
+                        name: bossName,
+                        type: 'bar',
+                        stack: bossName,
+                        data,
+                    })
+                })
             }
             // console.log(series)
             this.options = {
@@ -95,9 +93,39 @@ export default {
                     axisPointer: {
                         type: 'shadow',
                     },
+                    formatter(params) {
+                        let str = '',
+                            coreInfo = '',
+                            title = ''
+                        for (const { axisValue, seriesName, value, color } of params.reverse()) {
+                            if (Array.isArray(value)) {
+                                coreInfo += `
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="
+                                                background-color: ${color};
+                                                width: 10px;
+                                                height: 10px;
+                                                border-radius: 5px;
+                                                margin-right: 5px;">
+                                        </div>
+                                        <span style="margin-right: 10px;">${seriesName}: ${value[1].toLocaleString()}</span>
+                                        <span style="color: #ef5f5f;">${
+                                            value[2] == 1 ? '尾刀' : ''
+                                        }</span>
+                                        <span style="color: #f90;">${
+                                            value[3] == 1 ? '补偿刀' : ''
+                                        }</span>
+                                    </div>`
+                            }
+                            title = axisValue
+                        }
+                        str = `${title}${coreInfo}`
+                        return str
+                    },
                 },
                 legend: {
                     type: 'plain',
+                    data: this.guild.bossList,
                 },
                 dataZoom: [
                     {
