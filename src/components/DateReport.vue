@@ -71,21 +71,45 @@ export default {
             this.setOptions()
         },
         setOptions() {
-            const series = []
+            const temp = []
+            //相同用户数据分层
+            const find = (index) => {
+                const data = temp.find((item) => item[index] == undefined)
+                if (data == undefined) {
+                    const arr = []
+                    temp.push(arr)
+                    return arr
+                }
+                return data
+            }
             for (const { damage_list, name } of this.guild.dateReport.get(this.currentDate)) {
                 damage_list.forEach(({ boss_name, damage, kill, reimburse }) => {
                     const bossName = getSimilarString(boss_name, this.guild.bossList)
                     const index = this.userList.indexOf(name)
-                    const data = []
-                    data[index] = [name, damage, kill, reimburse]
-                    series.push({
-                        name: bossName,
-                        type: 'bar',
-                        stack: bossName,
-                        data,
-                    })
+                    const data = find(index)
+                    data[index] = { bossName, data: [name, damage, kill, reimburse] }
                 })
             }
+            // console.log(temp);
+            const series = temp
+                .map((item) => {
+                    const level = []
+                    item.forEach(({ bossName, data }) => {
+                        let current = level.find((item) => item.name == bossName)
+                        if (current == undefined) {
+                            current = {
+                                name: bossName,
+                                type: 'bar',
+                                stack: bossName,
+                                data: [],
+                            }
+                            level.push(current)
+                        }
+                        current.data.push(data)
+                    })
+                    return level
+                })
+                .flat()
             // console.log(series)
             this.options = {
                 tooltip: {
