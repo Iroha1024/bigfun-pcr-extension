@@ -149,8 +149,9 @@ const guild = {
         },
         async refreshDateReport({ dispatch, commit, state }) {
             commit('setVaildDateList')
-            await dispatch('getRankInfo')
             const date = formatDate(getTrueDate())
+            if (!state.vaildDateList.includes(date)) return
+            await dispatch('getRankInfo')
             const {
                 data: { data },
             } = await getDateReport(date, state.currentBattleId)
