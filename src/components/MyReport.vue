@@ -45,7 +45,7 @@
                     名，数目为
                     <span class="params">{{ rate.value }}</span>
                 </p>
-                <echarts :options="options" type="mini-chart" class="chart"></echarts>
+                <Echarts :options="options" type="mini-chart" class="chart"></Echarts>
             </div>
             <div class="sign">
                 <span>兰德索尔委员会</span>

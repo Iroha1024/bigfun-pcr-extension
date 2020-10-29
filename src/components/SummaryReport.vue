@@ -9,7 +9,7 @@
                 {{ user.name }}
             </a-select-option>
         </a-select>
-        <echarts :options="options" type="chart"></echarts>
+        <Echarts :options="options" type="chart"></Echarts>
     </div>
 </template>
 

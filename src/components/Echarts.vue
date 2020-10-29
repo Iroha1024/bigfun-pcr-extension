@@ -60,7 +60,7 @@ export default {
     height: 500px;
 }
 .mini-chart {
-    width: 540px;
-    height: 360px;
+    width: 600px;
+    height: 400px;
 }
 </style>
