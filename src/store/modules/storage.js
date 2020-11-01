@@ -14,7 +14,7 @@ const storage = {
         getStorage({ commit }, property) {
             return new Promise((resolve) => {
                 chrome.storage.sync.get(property, (data) => {
-                    if (!Object.prototype.hasOwnProperty('showTitleTip')) {
+                    if (!Object.prototype.hasOwnProperty.call(data, 'showTitleTip')) {
                         commit('setStorage', { key: 'showTitleTip', value: true })
                     }
                     for (const key in data) {
