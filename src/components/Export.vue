@@ -129,6 +129,7 @@ export default {
             const result = await zip.generateAsync({ type: 'blob' })
             saveAs(result, `${this.guild.constellationName}公会战报告.zip`)
             this.$store.commit('signal/setExportMode', false)
+            this.username = ''
         },
         domFinished(dom) {
             this.$store.commit('signal/setExportDom', dom)
