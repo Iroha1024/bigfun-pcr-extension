@@ -1,3 +1,20 @@
+## [0.3.3](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.2...v0.3.3) (2020-11-01)
+
+
+### Bug Fixes
+
+* 书写错误 ([720b5c6](https://github.com/Iroha1024/bigfun-pcr-extension/commit/720b5c646a2dec13ae42afcb30f88ed8929ea362))
+* 公会战以外时期不刷新报表 ([aae0348](https://github.com/Iroha1024/bigfun-pcr-extension/commit/aae0348f3c259dd6b4b231b877f951b42fbeb086))
+* 导出后初始化report ([d7a8dcc](https://github.com/Iroha1024/bigfun-pcr-extension/commit/d7a8dcc40ee5c10f314b82bd242d2f4b0e5b2d3a))
+
+
+### Features
+
+* 新增打包全公会成员报告 ([863480d](https://github.com/Iroha1024/bigfun-pcr-extension/commit/863480dceb8fb7656f9bfb498912c263f4c9c2f9))
+* 标明尾刀 补偿刀 ([f734e96](https://github.com/Iroha1024/bigfun-pcr-extension/commit/f734e962268be70623659c083af837834eb15c10))
+
+
+
 ## [0.3.2](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.1...v0.3.2) (2020-10-22)
 
 
