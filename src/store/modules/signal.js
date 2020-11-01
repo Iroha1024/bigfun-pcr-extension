@@ -15,21 +15,21 @@ const signal = {
         },
     },
     actions: {
-        getReportUrl({ dispatch, state }) {
+        getReportBlob({ dispatch, state }) {
             return new Promise((resolve) => {
                 setTimeout(async () => {
                     if (state.exportDom) {
                         document.body.appendChild(state.exportDom)
-                        const url = await domtoimage.toPng(state.exportDom, {
+                        const blob = await domtoimage.toBlob(state.exportDom, {
                             style: {
                                 overflowY: 'visible',
                                 height: 'auto',
                             },
                         })
                         document.body.removeChild(state.exportDom)
-                        resolve(url)
+                        resolve(blob)
                     } else {
-                        dispatch('getReportUrl').then((res) => {
+                        dispatch('getReportBlob').then((res) => {
                             resolve(res)
                         })
                     }

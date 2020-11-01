@@ -120,14 +120,13 @@ export default {
                 }
             }
             const zip = new jszip()
-            const reportList = zip.folder(`${this.guild.constellationName}公会战报告`)
-            for (const { username, url } of list) {
-                reportList.file(`${username}.png`, url.replace('data:image/png;base64,', ''), {
-                    base64: true,
-                })
+            const zipName = `${this.guild.constellationName}公会战报告`
+            const reportList = zip.folder(zipName)
+            for (const { username, blob } of list) {
+                reportList.file(`${username}.png`, blob)
             }
             const result = await zip.generateAsync({ type: 'blob' })
-            saveAs(result, `${this.guild.constellationName}公会战报告.zip`)
+            saveAs(result, `${zipName}.zip`)
             this.$store.commit('signal/setExportMode', false)
             this.username = ''
         },
@@ -138,10 +137,10 @@ export default {
         async pushUrl(username, list) {
             this.$store.commit('signal/setExportDom', null)
             this.username = username
-            const url = await this.$store.dispatch('signal/getReportUrl')
+            const blob = await this.$store.dispatch('signal/getReportBlob')
             list.push({
                 username,
-                url,
+                blob,
             })
         },
     },
