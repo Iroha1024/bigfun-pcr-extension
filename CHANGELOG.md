@@ -1,3 +1,12 @@
+## [0.3.4](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.3...v0.3.4) (2020-11-01)
+
+
+### Bug Fixes
+
+* 下载安装包 ([d16bb04](https://github.com/Iroha1024/bigfun-pcr-extension/commit/d16bb046b3f86c0fa5cf07caebbf55409236d7e9))
+
+
+
 ## [0.3.3](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.2...v0.3.3) (2020-11-01)
 
 
