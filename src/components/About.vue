@@ -2,12 +2,7 @@
     <div class="about">
         <p>当前版本：{{ version }}</p>
         <p>最新版本：{{ latestVer }}</p>
-        <a-button
-            type="primary"
-            icon="download"
-            :disabled="disabled"
-            @click="download(downloadUrl, assetName)"
-        >
+        <a-button type="primary" icon="download" :disabled="disabled" @click="download">
             下载
         </a-button>
         <div class="icon">
@@ -21,7 +16,7 @@
 <script>
 import { getLatestRelease } from '../api/'
 import pkg from '../../package'
-import { download } from '../utils/'
+import { saveAs } from 'file-saver'
 
 export default {
     data() {
@@ -50,6 +45,11 @@ export default {
         },
         disabled() {
             return !this.downloadUrl || this.version == this.latestVer
+        },
+    },
+    methods: {
+        download() {
+            saveAs(this.downloadUrl, this.assetName)
         },
     },
 }
