@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import bus from '../event-bus'
-
 export default {
     props: ['options', 'type'],
     data() {
@@ -15,15 +13,13 @@ export default {
     mounted() {
         this.chart = this.$echarts.init(this.$refs.chart)
         this.showLoading()
+        this.watchFinished()
         this.watch()
     },
     methods: {
         setOption(options) {
             this.chart.setOption(options)
             this.chart.hideLoading()
-            setTimeout(() => {
-                bus.$emit('echart-ready')
-            }, 500)
         },
         showLoading() {
             this.chart.showLoading('default', {
@@ -42,6 +38,7 @@ export default {
             this.$watch(
                 'options',
                 (options) => {
+                    // console.log('echarts')
                     this.chart.clear()
                     this.setOption(options)
                 },
@@ -49,6 +46,11 @@ export default {
                     immediate: Boolean(this.options),
                 }
             )
+        },
+        watchFinished() {
+            this.chart.on('finished', () => {
+                this.$emit('chart-finished')
+            })
         },
     },
 }
