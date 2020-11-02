@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Select from './Select'
+import Select from '../components/Select'
 
 import { mapState } from 'vuex'
 

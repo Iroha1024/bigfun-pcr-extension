@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Report from './Report'
+import Report from '../components/Report'
 
 import { mapState } from 'vuex'
 

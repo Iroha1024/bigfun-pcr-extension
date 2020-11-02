@@ -17,7 +17,7 @@
 import { getSimilarString, dayjs } from '../utils/'
 import { getUser } from '../api/'
 
-import Echarts from './Echarts'
+import Echarts from '../components/Echarts'
 
 import { mapState } from 'vuex'
 

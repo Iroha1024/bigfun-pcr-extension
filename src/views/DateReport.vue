@@ -17,7 +17,7 @@
 import { getDateReport, getBossReport } from '../api/'
 import { isSameDate, getSimilarString, getMaxDate, formatDate, getTrueDate } from '../utils/'
 
-import Echarts from './Echarts'
+import Echarts from '../components/Echarts'
 
 import { mapState } from 'vuex'
 

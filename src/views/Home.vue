@@ -39,15 +39,15 @@
 </template>
 
 <script>
-import DateReport from '../components/DateReport'
-import SummaryReport from '../components/SummaryReport'
-import InversionRateReport from '../components/InversionRateReport'
-import MyReport from '../components/MyReport'
-import Export from '../components/Export'
-import About from '../components/About'
+import DateReport from './DateReport'
+import SummaryReport from './SummaryReport'
+import InversionRateReport from './InversionRateReport'
+import MyReport from './MyReport'
+import Export from './Export'
+import Setting from './Setting'
+import About from './About'
 import Loading from '../components/Loading'
 import Select from '../components/Select'
-import Setting from '../components/Setting'
 
 import { mapState } from 'vuex'
 import clonedeep from 'lodash.clonedeep'

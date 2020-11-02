@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Echarts from './Echarts'
+import Echarts from '../components/Echarts'
 
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
