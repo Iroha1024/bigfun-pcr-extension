@@ -1,10 +1,16 @@
 <template>
     <div class="about">
-        <p>当前版本：{{ version }}</p>
-        <p>最新版本：{{ latestVer }}</p>
-        <a-button type="primary" icon="download" :disabled="disabled" @click="download">
-            下载
-        </a-button>
+        <div class="changelog" v-if="changelog">
+            <h2>更新日志</h2>
+            <div class="markdown-body" v-html="changelog"></div>
+        </div>
+        <div class="version">
+            <p>当前版本：{{ version }}</p>
+            <p>最新版本：{{ latestVer }}</p>
+            <a-button type="primary" icon="download" :disabled="disabled" @click="download">
+                下载
+            </a-button>
+        </div>
         <div class="icon">
             <a href="https://github.com/Iroha1024/bigfun-pcr-extension" target="_blank">
                 <a-icon type="github" />
@@ -14,9 +20,11 @@
 </template>
 
 <script>
-import { getLatestRelease } from '../api/'
+import { getLatestRelease, getChangelog } from '../api/'
 import pkg from '../../package'
+
 import { saveAs } from 'file-saver'
+import 'github-markdown-css'
 
 export default {
     data() {
@@ -24,6 +32,7 @@ export default {
             latestVer: '0.0.0',
             downloadUrl: '',
             assetName: '',
+            changelog: '',
         }
     },
     async created() {
@@ -35,6 +44,8 @@ export default {
             this.latestVer = tag_name
             this.downloadUrl = browser_download_url
             this.assetName = name
+            const { data } = await getChangelog()
+            this.changelog = data
         } catch {
             this.$message.warning('获取github信息失败，请稍后重试')
         }
@@ -58,7 +69,21 @@ export default {
 <style lang="scss" scoped>
 .about {
     position: relative;
-    height: 300px;
+    min-height: 300px;
+    .changelog {
+        .markdown-body {
+            max-width: 900px;
+            max-height: 300px;
+            margin: 20px 0 40px;
+            overflow-y: scroll;
+        }
+    }
+    .version {
+        p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
     .icon {
         position: absolute;
         bottom: 0;
