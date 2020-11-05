@@ -6,7 +6,8 @@
     "serve": "vue-cli-service build --mode development --watch",
     "build": "vue-cli-service build",
     "format": "prettier --write \"src/**/*\"",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && npm run format:changelog",
+    "format:changelog": "node scripts/changelog.js"
   },
   "husky": {
     "hooks": {
