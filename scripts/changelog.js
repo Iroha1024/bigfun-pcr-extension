@@ -2,8 +2,12 @@ const fs = require('fs')
 
 const path = 'CHANGELOG.md'
 
-const changelog = fs.readFileSync(path, { encoding: 'utf-8' })
+let changelog = fs.readFileSync(path, { encoding: 'utf-8' })
 
-const data = changelog.replace(/Bug Fixes/g, '🐛Bug Fixes').replace(/Features/g, '✨Features')
+const map = [['🐛', 'Bug Fixes'], ['✨', 'Features']]
 
-fs.writeFileSync(path, data)
+for (const [emoji, str] of map) {
+    changelog = changelog.replace(new RegExp(`(?<!${emoji})${str}`, 'g'), `${emoji}${str}`)
+}
+
+fs.writeFileSync(path, changelog)
