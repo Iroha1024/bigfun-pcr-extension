@@ -47,7 +47,7 @@ export default {
             const { data } = await getChangelog()
             this.changelog = data
         } catch {
-            this.$message.warning('获取github信息失败，请稍后重试')
+            this.$message({ type: 'warning', msg: '获取github信息失败，请稍后重试' })
         }
     },
     computed: {

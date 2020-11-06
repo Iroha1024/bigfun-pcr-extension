@@ -127,8 +127,8 @@ export default {
                 try {
                     await this.$store.dispatch('guild/getBattleInfo')
                 } catch (error) {
-                    await this.$store.commit('guild/setCurrentBattleId', null)
-                    await this.$message.error(error.msg)
+                    this.$store.commit('guild/setCurrentBattleId', null)
+                    await this.$message(error)
                     this.loading = false
                     return
                 }

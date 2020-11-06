@@ -108,8 +108,8 @@ const guild = {
                 commit('setVaildDateList')
             } catch {
                 return Promise.reject({
-                    msg: '当前公会战信息尚未公开',
                     type: 'error',
+                    msg: '当前公会战信息尚未公开',
                 })
             }
             await dispatch('getRankInfo')
