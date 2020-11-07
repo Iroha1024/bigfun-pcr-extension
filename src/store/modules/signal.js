@@ -20,12 +20,7 @@ const signal = {
                 setTimeout(async () => {
                     if (state.exportDom) {
                         document.body.appendChild(state.exportDom)
-                        const blob = await domtoimage.toBlob(state.exportDom, {
-                            style: {
-                                overflowY: 'visible',
-                                height: 'auto',
-                            },
-                        })
+                        const blob = await domtoimage.toBlob(state.exportDom)
                         document.body.removeChild(state.exportDom)
                         resolve(blob)
                     } else {

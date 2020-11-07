@@ -1,60 +1,62 @@
 <template>
-    <div class="report" ref="report">
-        <div class="wrapper" :style="`background-image: url(${backgroundUrl})`">
-            <p class="title" :style="`background-image: url(${titleUrl})`">会战总结报告</p>
-            <div class="content">
-                <p>
-                    尊敬的
-                    <span class="params">{{ username }}</span>
-                    :
-                </p>
-                <p>
-                    以下为您于
-                    <span class="params">{{ guild.month }}</span>
-                    月
-                    <span class="params">{{ guild.constellationName }}</span>
-                    会战，在
-                    <span class="params">{{ guild.guildName }}</span>
-                    公会中的总结
-                </p>
-                <p>
-                    众人拾柴火焰高，您的公会在本期会战中取得了第
-                    <span class="params">{{ guild.rank }}</span>
-                    名的成绩
-                </p>
-                <p>
-                    本期一共挑战团队副本
-                    <span class="params">{{ ChallengeSum }}</span>
-                    次
-                </p>
-                <p>
-                    伤害排名第
-                    <span class="params">{{ damage.index }}</span>
-                    名，伤害总量为
-                    <span class="params">{{ damage.value.toLocaleString() }}</span>
-                </p>
-                <p>
-                    分数排名第
-                    <span class="params">{{ score.index }}</span>
-                    名，分数总量为
-                    <span class="params">{{ score.value.toLocaleString() }}</span>
-                </p>
-                <p>
-                    伤害分数转换率排名第
-                    <span class="params">{{ rate.index }}</span>
-                    名，数目为
-                    <span class="params">{{ rate.value }}</span>
-                </p>
-                <Echarts
-                    :options="options"
-                    type="mini-chart"
-                    class="chart"
-                    @chart-finished="chartFinished"
-                ></Echarts>
-            </div>
-            <div class="sign">
-                <span>兰德索尔委员会</span>
-                <img :src="signUrl" alt="karin" />
+    <div class="report">
+        <div class="export-layer" ref="report">
+            <div class="wrapper" :style="`background-image: url(${backgroundUrl})`">
+                <p class="title" :style="`background-image: url(${titleUrl})`">会战总结报告</p>
+                <div class="content">
+                    <p>
+                        尊敬的
+                        <span class="params">{{ username }}</span>
+                        :
+                    </p>
+                    <p>
+                        以下为您于
+                        <span class="params">{{ guild.month }}</span>
+                        月
+                        <span class="params">{{ guild.constellationName }}</span>
+                        会战，在
+                        <span class="params">{{ guild.guildName }}</span>
+                        公会中的总结
+                    </p>
+                    <p>
+                        众人拾柴火焰高，您的公会在本期会战中取得了第
+                        <span class="params">{{ guild.rank }}</span>
+                        名的成绩
+                    </p>
+                    <p>
+                        本期一共挑战团队副本
+                        <span class="params">{{ ChallengeSum }}</span>
+                        次
+                    </p>
+                    <p>
+                        伤害排名第
+                        <span class="params">{{ damage.index }}</span>
+                        名，伤害总量为
+                        <span class="params">{{ damage.value.toLocaleString() }}</span>
+                    </p>
+                    <p>
+                        分数排名第
+                        <span class="params">{{ score.index }}</span>
+                        名，分数总量为
+                        <span class="params">{{ score.value.toLocaleString() }}</span>
+                    </p>
+                    <p>
+                        伤害分数转换率排名第
+                        <span class="params">{{ rate.index }}</span>
+                        名，数目为
+                        <span class="params">{{ rate.value }}</span>
+                    </p>
+                    <Echarts
+                        :options="options"
+                        type="mini-chart"
+                        class="chart"
+                        @chart-finished="chartFinished"
+                    ></Echarts>
+                </div>
+                <div class="sign">
+                    <span>兰德索尔委员会</span>
+                    <img :src="signUrl" alt="karin" />
+                </div>
             </div>
         </div>
     </div>
@@ -193,10 +195,12 @@ export default {
 
 <style lang="scss" scoped>
 .report {
-    width: 900px;
     height: 500px;
     padding: 0 50px;
     overflow-y: scroll;
+}
+.export-layer {
+    width: 800px;
     * {
         font-family: KaiTi;
     }
