@@ -112,11 +112,11 @@ export default {
             this.$store.commit('signal/setExportMode', true)
             const list = []
             if (this.myReport.checked && !this.myReport.disabled) {
-                await this.pushUrl(this.user.username, list)
+                await this.pushBlob(this.user.username, list)
             }
             if (this.allReports.checked) {
                 for (const name of this.checkedGuildMemberList) {
-                    await this.pushUrl(name, list)
+                    await this.pushBlob(name, list)
                 }
             }
             const zip = new jszip()
@@ -134,7 +134,7 @@ export default {
             this.$store.commit('signal/setExportDom', dom)
             // console.log('dom', dom);
         },
-        async pushUrl(username, list) {
+        async pushBlob(username, list) {
             this.$store.commit('signal/setExportDom', null)
             this.username = username
             const blob = await this.$store.dispatch('signal/getReportBlob')

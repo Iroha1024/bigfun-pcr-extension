@@ -132,16 +132,20 @@ export default {
                     this.loading = false
                     return
                 }
-                await this.$store.dispatch('guild/getBossReportInfo')
-                await this.$store.dispatch('guild/getDateReportInfo')
-                await this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip'])
+                await Promise.all([
+                    this.$store.dispatch('guild/getBossReportInfo'),
+                    this.$store.dispatch('guild/getDateReportInfo'),
+                    this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip']),
+                ])
                 this.loading = false
             }
         },
     },
     async created() {
-        await this.$store.dispatch('guild/getBattleListInfo')
-        await this.$store.dispatch('user/getUserName')
+        await Promise.all([
+            this.$store.dispatch('guild/getBattleListInfo'),
+            this.$store.dispatch('user/getUserName'),
+        ])
         this.loading = false
         this.autoComplete()
     },

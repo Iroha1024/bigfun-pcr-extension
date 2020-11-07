@@ -139,12 +139,18 @@ const guild = {
         },
         async getDateReportInfo({ commit, state }) {
             commit('clearDateReport')
+            const list = []
             for (const date of state.vaildDateList) {
-                const {
-                    data: { data },
-                } = await getDateReport(date, state.currentBattleId)
-                commit('setDateReport', { key: date, value: data })
+                const promise = getDateReport(date, state.currentBattleId)
+                list.push(promise)
+                promise.then((res) => {
+                    const {
+                        data: { data },
+                    } = res
+                    commit('setDateReport', { key: date, value: data })
+                })
             }
+            await Promise.all(list)
             commit('setUserReportData')
         },
         async refreshDateReport({ dispatch, commit, state }) {
