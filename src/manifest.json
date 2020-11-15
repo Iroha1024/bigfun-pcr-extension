@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bigfun pcr extension",
-  "description": "利用bigfun pcr数据，提供数据图表等功能",
+  "description": "利用bigfun pcr数据，提供数据图表、导出个人报表等功能",
   "icons": {
     "128": "icons/kyaru.png"
   },

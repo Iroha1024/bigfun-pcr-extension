@@ -1,3 +1,13 @@
+## [0.3.5](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.4...v0.3.5) (2020-11-15)
+
+
+### ✨Features
+
+* 修改个人报表 ([d31ba2e](https://github.com/Iroha1024/bigfun-pcr-extension/commit/d31ba2e085ffcb07b2a085e7bb6242f5e1127ff8))
+* 增加更新日志 ([2799b6e](https://github.com/Iroha1024/bigfun-pcr-extension/commit/2799b6e7c6084b69fe1a17fc68172795d662f34f))
+
+
+
 ## [0.3.4](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.3...v0.3.4) (2020-11-01)
 
 
