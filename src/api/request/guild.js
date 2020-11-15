@@ -12,6 +12,16 @@ export const getBattleList = () => {
     return instance.get(url)
 }
 
+/**
+ * data: {leader_name: 会长}
+ *
+ * https://www.bigfun.cn/api/feweb?target=gzlj-my-clan%2Fa
+ */
+export const getLeader = () => {
+    const url = '/feweb?target=gzlj-my-clan%2Fa'
+    return instance.get(url)
+}
+
 // 公会日表
 
 /**

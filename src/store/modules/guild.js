@@ -4,6 +4,7 @@ import {
     getBattleList,
     getDateReport,
     getBossReport,
+    getLeader,
 } from '../../api/'
 import { dayjs, formatDate, getTrueDate } from '../../utils/'
 
@@ -14,6 +15,7 @@ const guild = {
         constellationName: '',
         rank: 0,
         guildName: '',
+        leaderName: '',
         dateList: [],
         vaildDateList: [],
         bossList: [],
@@ -35,6 +37,9 @@ const guild = {
         },
         setGuildName(state, guildName) {
             state.guildName = guildName
+        },
+        setLeaderName(state, leaderName) {
+            state.leaderName = leaderName
         },
         setDateList(state, dateList) {
             state.dateList = dateList
@@ -90,6 +95,14 @@ const guild = {
                 data: { data },
             } = await getBattleList()
             commit('setBattleList', data)
+        },
+        async getLeaderInfo({ commit }) {
+            const {
+                data: {
+                    data: { leader_name },
+                },
+            } = await getLeader()
+            commit('setLeaderName', leader_name)
         },
         async getBattleInfo({ dispatch, commit, state }) {
             try {

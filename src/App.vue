@@ -1,7 +1,7 @@
 <template>
     <div id="bigfun-pcr-extension">
         <img :src="url" alt="extension button" class="button" @click="toggleModal" />
-        <home :isVisible="isVisible" :toggleModal="toggleModal"></home>
+        <Home :isVisible="isVisible" :toggleModal="toggleModal"></Home>
     </div>
 </template>
 

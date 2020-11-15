@@ -133,6 +133,8 @@ export default {
                     return
                 }
                 await Promise.all([
+                    this.$store.dispatch('user/getUserName'),
+                    this.$store.dispatch('guild/getLeaderInfo'),
                     this.$store.dispatch('guild/getBossReportInfo'),
                     this.$store.dispatch('guild/getDateReportInfo'),
                     this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip']),
@@ -142,10 +144,7 @@ export default {
         },
     },
     async created() {
-        await Promise.all([
-            this.$store.dispatch('guild/getBattleListInfo'),
-            this.$store.dispatch('user/getUserName'),
-        ])
+        await this.$store.dispatch('guild/getBattleListInfo')
         this.loading = false
         this.autoComplete()
     },

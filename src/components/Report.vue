@@ -1,8 +1,8 @@
 <template>
     <div class="report">
-        <div class="export-layer" ref="report">
+        <div class="export-layer" :style="`background-image: url(${paperUrl})`" ref="report">
             <div class="wrapper" :style="`background-image: url(${backgroundUrl})`">
-                <p class="title" :style="`background-image: url(${titleUrl})`">会战总结报告</p>
+                <p class="title">会战总结报告</p>
                 <div class="content">
                     <p>
                         尊敬的
@@ -53,9 +53,20 @@
                         @chart-finished="chartFinished"
                     ></Echarts>
                 </div>
-                <div class="sign">
-                    <span>兰德索尔委员会</span>
-                    <img :src="signUrl" alt="karin" />
+                <div class="bottom">
+                    <div class="sign">
+                        <p class="text">会长盖章：</p>
+                        <div class="seal" :style="`transform: rotate(${getRotateDeg(0, -8)}deg);`">
+                            <div class="content">
+                                {{ guild.leaderName }}
+                            </div>
+                        </div>
+                    </div>
+                    <img
+                        :src="signUrl"
+                        alt="kokoro"
+                        :style="`transform: rotate(${getRotateDeg(6, -12)}deg);`"
+                    />
                 </div>
             </div>
         </div>
@@ -109,12 +120,17 @@ export default {
     data() {
         return {
             options: null,
+            paperUrl: browser.runtime.getURL('icons/paper.jpg'),
             backgroundUrl: browser.runtime.getURL('icons/guild.png'),
-            titleUrl: browser.runtime.getURL('icons/laurel.png'),
-            signUrl: browser.runtime.getURL('icons/karin.png'),
+            signUrl: browser.runtime.getURL('icons/kokoro.png'),
         }
     },
     methods: {
+        getRotateDeg(max, min) {
+            max = Math.random() * max
+            min = Math.random() * min
+            return ~~(max + min)
+        },
         chartFinished() {
             this.$nextTick(() => {
                 if (this.signal.exportMode) {
@@ -205,21 +221,17 @@ export default {
         font-family: KaiTi;
     }
     .wrapper {
-        font-size: 20px;
+        font-size: 22px;
         text-align: center;
         padding: 50px 0;
-        background-color: aliceblue;
         background-repeat: no-repeat;
         background-position: center;
         background-attachment: local;
         .title {
-            font-size: 30px;
+            font-size: 35px;
             font-weight: bold;
             padding: 10px 0 40px;
             margin: 0;
-            background-size: 50%;
-            background-repeat: no-repeat;
-            background-position: center;
         }
         .params {
             font-weight: bold;
@@ -231,18 +243,41 @@ export default {
                 background-color: #ffffffa6;
             }
         }
-        .sign {
-            text-align: right;
+        .bottom {
             margin-top: 50px;
-            padding-right: 20px;
-            span {
-                vertical-align: bottom;
-                font-size: 30px;
-                font-family: STXinwei;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            .sign {
+                .text {
+                    font-size: 30px;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                    text-align: left;
+                }
+                .seal {
+                    position: relative;
+                    left: 80px;
+                    border: 8px solid #f50000;
+                    border-radius: 10px;
+                    writing-mode: vertical-rl;
+                    .content {
+                        min-width: 50px;
+                        min-height: 50px;
+                        max-height: 160px;
+                        margin: 5px;
+                        padding: 10px;
+                        letter-spacing: 5px;
+                        font-size: 30px;
+                        color: #fff;
+                        font-family: KaiTi;
+                        background-color: #f50000;
+                    }
+                }
             }
             img {
-                padding-left: 20px;
-                display: inline-block;
+                width: 200px;
+                height: 200px;
             }
         }
     }
