@@ -12,12 +12,19 @@ const user = {
     },
     actions: {
         async getUserName({ commit }) {
-            const {
-                data: {
+            const { data } = await getUser()
+            const { code, message } = data
+            if (code == 401) {
+                return Promise.reject({
+                    type: 'error',
+                    msg: message,
+                })
+            } else if (code == 0) {
+                const {
                     data: { player_name },
-                },
-            } = await getUser()
-            commit('setUserName', player_name)
+                } = data
+                commit('setUserName', player_name)
+            }
         },
     },
 }

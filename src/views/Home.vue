@@ -133,7 +133,6 @@ export default {
                     return
                 }
                 await Promise.all([
-                    this.$store.dispatch('user/getUserName'),
                     this.$store.dispatch('guild/getLeaderInfo'),
                     this.$store.dispatch('guild/getBossReportInfo'),
                     this.$store.dispatch('guild/getDateReportInfo'),

@@ -104,25 +104,32 @@ const guild = {
             commit('setLeaderName', leader_name)
         },
         async getBattleInfo({ dispatch, commit, state }) {
-            try {
-                const {
-                    data: {
+            const { data } = await getGuildDailyReport(state.currentBattleId)
+            const { code, message } = data
+            if (code == 1) {
+                return Promise.reject({
+                    type: 'error',
+                    msg: message,
+                })
+            } else if (code == 0) {
+                try {
+                    const {
                         data: {
                             battle_info: { name: constellationName },
                             clan_info: { name: guildName },
                             day_list,
                         },
-                    },
-                } = await getGuildDailyReport(state.currentBattleId)
-                commit('setConstellationName', constellationName)
-                commit('setGuildName', guildName)
-                commit('setDateList', day_list)
-                commit('setVaildDateList')
-            } catch {
-                return Promise.reject({
-                    type: 'error',
-                    msg: '当前公会战信息尚未公开',
-                })
+                    } = data
+                    commit('setConstellationName', constellationName)
+                    commit('setGuildName', guildName)
+                    commit('setDateList', day_list)
+                    commit('setVaildDateList')
+                } catch {
+                    return Promise.reject({
+                        type: 'error',
+                        msg: '当前公会战信息未公开',
+                    })
+                }
             }
             await dispatch('getRankInfo')
         },

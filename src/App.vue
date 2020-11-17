@@ -1,12 +1,14 @@
 <template>
     <div id="bigfun-pcr-extension">
         <img :src="url" alt="extension button" class="button" @click="toggleModal" />
-        <Home :isVisible="isVisible" :toggleModal="toggleModal"></Home>
+        <Home v-if="isLogined" :isVisible="isVisible" :toggleModal="toggleModal"></Home>
     </div>
 </template>
 
 <script>
 import Home from './views/Home'
+
+import { mapState } from 'vuex'
 
 export default {
     components: {
@@ -18,8 +20,29 @@ export default {
             url: browser.runtime.getURL('icons/kyaru.png'),
         }
     },
+    computed: {
+        ...mapState({
+            user: (state) => state.user,
+        }),
+        isLogined() {
+            return this.user.username
+        },
+    },
+    async created() {
+        await this.login()
+    },
     methods: {
-        toggleModal() {
+        async login() {
+            if (!this.isLogined) {
+                try {
+                    await this.$store.dispatch('user/getUserName')
+                } catch (error) {
+                    await this.$message(error)
+                }
+            }
+        },
+        async toggleModal() {
+            await this.login()
             this.isVisible = !this.isVisible
         },
     },

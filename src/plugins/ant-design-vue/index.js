@@ -26,12 +26,5 @@ Vue.use(Col)
 Vue.use(Divider)
 
 Vue.prototype.$message = ({ type, msg }) => {
-    switch (type) {
-        case 'warning':
-            return message.warning(msg)
-        case 'error':
-            return message.error(msg)
-        default:
-            return message.warning(msg)
-    }
+    return message[type](msg)
 }
