@@ -13,7 +13,7 @@ export const getBattleList = () => {
 }
 
 /**
- * data: {leader_name: 会长}
+ * data: [{leader_name: 会长}]
  *
  * https://www.bigfun.cn/api/feweb?target=gzlj-my-clan%2Fa
  */
