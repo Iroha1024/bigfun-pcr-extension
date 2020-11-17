@@ -1,3 +1,12 @@
+## [0.3.6](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.5...v0.3.6) (2020-11-17)
+
+
+### 🐛Bug Fixes
+
+* 修复会长名称不显示 ([9d3661b](https://github.com/Iroha1024/bigfun-pcr-extension/commit/9d3661ba89ca4abcdef24dcef2579fb1174521a5))
+
+
+
 ## [0.3.5](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.4...v0.3.5) (2020-11-15)
 
 
