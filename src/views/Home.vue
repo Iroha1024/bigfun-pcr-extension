@@ -9,6 +9,9 @@
         @cancel="toggleModal"
         @contextmenu.native.prevent="refresh"
     >
+        <template #title>
+            <span class="title">{{ guild.constellationName }}</span>
+        </template>
         <Loading :loading="loading">
             <Select v-if="!isSelected" :type="1"></Select>
             <a-tabs v-else v-model="activeKey">
@@ -186,5 +189,11 @@ export default {
 <style lang="scss" scoped>
 .modal {
     user-select: none;
+    .title {
+        font-size: 22px;
+    }
+    & /deep/ .ant-modal-body {
+        padding-top: 0;
+    }
 }
 </style>
