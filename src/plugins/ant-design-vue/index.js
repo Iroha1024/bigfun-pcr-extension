@@ -25,6 +25,4 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Divider)
 
-Vue.prototype.$message = ({ type, msg }) => {
-    return message[type](msg)
-}
+Vue.prototype.$message = ({ type, msg }) => message[type](msg)
