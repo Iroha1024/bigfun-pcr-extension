@@ -88,6 +88,7 @@ export default {
 .select {
     font-size: 25px;
     text-align: center;
+    cursor: pointer;
     i {
         font-size: inherit;
     }
@@ -103,7 +104,6 @@ export default {
         }
         .option--hover {
             span {
-                cursor: pointer;
                 color: #000;
                 border-radius: 5px;
             }
