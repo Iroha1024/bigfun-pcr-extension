@@ -8,3 +8,4 @@ export { default as CloseCircleFill } from '@ant-design/icons/lib/fill/CloseCirc
 export { default as LeftOutline } from '@ant-design/icons/lib/outline/LeftOutline'
 export { default as RightOutline } from '@ant-design/icons/lib/outline/RightOutline'
 export { default as ExclamationCircleFill } from '@ant-design/icons/lib/fill/ExclamationCircleFill'
+export { default as CloseOutline } from '@ant-design/icons/lib/outline/CloseOutline'

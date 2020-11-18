@@ -9,14 +9,6 @@
         @cancel="toggleModal"
         @contextmenu.native.prevent="refresh"
     >
-        <template #title v-if="isShowTip">
-            <a-alert
-                message="鼠标右键刷新数据，设置中鼠标滑轮上下滚动可切换会战期数"
-                type="info"
-                closeText="关闭"
-                :afterClose="closeTip"
-            />
-        </template>
         <Loading :loading="loading">
             <Select v-if="!isSelected" :type="1"></Select>
             <a-tabs v-else v-model="activeKey">
@@ -117,7 +109,7 @@ export default {
             return this.guild.currentBattleId != null
         },
         isShowTip() {
-            return this.isSelected && this.storage.showTitleTip
+            return this.isSelected && this.isVisible && this.storage.showTitleTip
         },
     },
     watch: {
@@ -139,6 +131,20 @@ export default {
                     this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip']),
                 ])
                 this.loading = false
+            }
+        },
+        isShowTip() {
+            if (this.isShowTip) {
+                this.$notification.open({
+                    message: '小提示',
+                    description: '鼠标右键刷新数据，设置中鼠标滑轮上下滚动可切换会战期数',
+                    duration: 0,
+                    onClose: () => {
+                        this.closeTip()
+                    },
+                })
+            } else {
+                this.$notification.destroy()
             }
         },
     },
