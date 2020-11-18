@@ -71,7 +71,7 @@ export default {
             this.setOptions()
         },
         setOptions() {
-            const temp = []
+            let temp = []
             //相同用户数据分层
             const find = (index) => {
                 const data = temp.find((item) => item[index] == undefined)
@@ -82,6 +82,7 @@ export default {
                 }
                 return data
             }
+            let series = []
             for (const { damage_list, name } of this.guild.dateReport.get(this.currentDate)) {
                 damage_list.forEach(({ boss_name, damage, kill, reimburse }) => {
                     const bossName = getSimilarString(boss_name, this.guild.bossList)
@@ -89,9 +90,17 @@ export default {
                     const data = find(index)
                     data[index] = { bossName, data: [name, damage, kill, reimburse] }
                 })
+                if (damage_list.length == 0) {
+                    series.push({
+                        name: 'null',
+                        type: 'bar',
+                        stack: 'null',
+                        data: [[name, 0, 0, 0]],
+                    })
+                }
             }
             // console.log(temp);
-            const series = temp
+            temp = temp
                 .map((item) => {
                     const level = []
                     item.forEach(({ bossName, data }) => {
@@ -110,6 +119,7 @@ export default {
                     return level
                 })
                 .flat()
+            series = [...temp, ...series]
             // console.log(series)
             this.options = {
                 tooltip: {
@@ -132,7 +142,11 @@ export default {
                                                 border-radius: 5px;
                                                 margin-right: 5px;">
                                         </div>
-                                        <span style="margin-right: 10px;">${seriesName}: ${value[1].toLocaleString()}</span>
+                                        <span style="margin-right: 10px;">${
+                                            seriesName == 'null'
+                                                ? '暂未出🔪'
+                                                : `${seriesName}: ${value[1].toLocaleString()}`
+                                        }</span>
                                         <span style="color: #ef5f5f;">${
                                             value[2] == 1 ? '尾刀' : ''
                                         }</span>
