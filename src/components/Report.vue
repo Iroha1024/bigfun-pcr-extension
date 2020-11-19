@@ -56,7 +56,13 @@
                 <div class="bottom">
                     <div class="sign">
                         <p class="text">会长盖章：</p>
-                        <div class="seal" :style="`transform: rotate(${getRotateDeg(0, -8)}deg);`">
+                        <div
+                            class="seal"
+                            :style="`transform: rotate(${getRotateDeg(
+                                0,
+                                -8
+                            )}) translate(${getOffset(10, -10)})`"
+                        >
                             <div class="content">
                                 {{ guild.leaderName }}
                             </div>
@@ -65,7 +71,10 @@
                     <img
                         :src="signUrl"
                         alt="kokoro"
-                        :style="`transform: rotate(${getRotateDeg(6, -12)}deg);`"
+                        :style="`transform: rotate(${getRotateDeg(6, -12)}) translate(${getOffset(
+                            5,
+                            5
+                        )})`"
                     />
                 </div>
             </div>
@@ -129,7 +138,14 @@ export default {
         getRotateDeg(max, min) {
             max = Math.random() * max
             min = Math.random() * min
-            return ~~(max + min)
+            return `${~~(max + min)}deg`
+        },
+        getOffset(max, min) {
+            let xMax = Math.random() * max
+            let xMin = Math.random() * min
+            let yMax = Math.random() * max
+            let yMin = Math.random() * min
+            return `${~~(xMax - xMin)}px, ${~~(yMax - yMin)}px`
         },
         chartFinished() {
             this.$nextTick(() => {
@@ -278,6 +294,8 @@ export default {
             img {
                 width: 200px;
                 height: 200px;
+                position: relative;
+                top: 50px;
             }
         }
     }
