@@ -30,7 +30,7 @@
 <script>
 import DateReport from './DateReport'
 import SummaryReport from './SummaryReport'
-import InversionRateReport from './InversionRateReport'
+import RankReport from './RankReport'
 import MyReport from './MyReport'
 import Export from './Export'
 import Setting from './Setting'
@@ -61,9 +61,9 @@ export default {
                     component: SummaryReport,
                 },
                 {
-                    name: '转化率报表',
+                    name: '排名报表',
                     key: '2',
-                    component: InversionRateReport,
+                    component: RankReport,
                 },
                 {
                     name: '个人总结',
