@@ -9,7 +9,7 @@
         @cancel="toggleModal"
         @contextmenu.native.prevent="refresh"
     >
-        <template #title>
+        <template #title v-if="!loading">
             <span class="title">{{ guild.constellationName }}</span>
         </template>
         <Loading :loading="loading">
