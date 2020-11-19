@@ -24,11 +24,8 @@ export default {
             options: null,
         }
     },
-    watch: {
-        'guild.userReportData': {
-            handler: 'setOptions',
-            immediate: true,
-        },
+    created() {
+        this.setOptions()
     },
     methods: {
         setOptions() {

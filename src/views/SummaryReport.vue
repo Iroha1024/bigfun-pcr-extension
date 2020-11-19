@@ -37,11 +37,6 @@ export default {
             options: null,
         }
     },
-    watch: {
-        'guild.dateReportTracker': {
-            handler: 'setOptions',
-        },
-    },
     created() {
         this.setUserName()
         this.setOptions()
