@@ -15,17 +15,11 @@
         <Loading :loading="loading">
             <Select v-if="!isSelected" :type="1"></Select>
             <a-tabs v-else v-model="activeKey">
-                <a-tab-pane
-                    v-for="item of tabList"
-                    :key="item.key"
-                    :tab="item.name"
-                    :forceRender="item.forceRender"
-                >
+                <a-tab-pane v-for="item of tabList" :key="item.key" :tab="item.name">
                     <component
                         v-show="activeKey == item.key"
                         :is="item.component"
                         :active="activeKey == item.key"
-                        @export="forceRender"
                     ></component>
                 </a-tab-pane>
             </a-tabs>
@@ -60,43 +54,36 @@ export default {
                     name: '每日报表',
                     key: '0',
                     component: DateReport,
-                    forceRender: false,
                 },
                 {
                     name: '总结报表',
                     key: '1',
                     component: SummaryReport,
-                    forceRender: false,
                 },
                 {
                     name: '转化率报表',
                     key: '2',
                     component: InversionRateReport,
-                    forceRender: false,
                 },
                 {
                     name: '个人总结',
                     key: '3',
                     component: MyReport,
-                    forceRender: false,
                 },
                 {
                     name: '导出',
                     key: '4',
                     component: Export,
-                    forceRender: false,
                 },
                 {
                     name: '设置',
                     key: '5',
                     component: Setting,
-                    forceRender: false,
                 },
                 {
                     name: '关于',
                     key: '6',
                     component: About,
-                    forceRender: false,
                 },
             ],
             activeKey: '0',
@@ -157,10 +144,6 @@ export default {
         this.autoComplete()
     },
     methods: {
-        forceRender(name) {
-            const component = this.tabList.find((tab) => tab.name == name)
-            component.forceRender = true
-        },
         async refresh() {
             this.loading = true
             await this.$store.dispatch('guild/refreshDateReport')
