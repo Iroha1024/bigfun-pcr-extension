@@ -1,3 +1,20 @@
+## [0.3.7](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.6...v0.3.7) (2020-11-20)
+
+
+### 🐛Bug Fixes
+
+* revert会长名称显示问题 ([176d9ba](https://github.com/Iroha1024/bigfun-pcr-extension/commit/176d9bafe9db9623c101ea2f936884420adca284))
+* 修复每日报表空数据不显示 ([0a9c25f](https://github.com/Iroha1024/bigfun-pcr-extension/commit/0a9c25f39b697bce23954d0e2667b332c22509f1))
+
+
+### ✨Features
+
+* title显示星座名 ([6f93aa8](https://github.com/Iroha1024/bigfun-pcr-extension/commit/6f93aa8caedced0256ea2a119735938d5fcf6693))
+* 修改转化率报表为排名报表 ([0120b9c](https://github.com/Iroha1024/bigfun-pcr-extension/commit/0120b9c30220dde18882fba5e7f58246732c160d))
+* 添加错误时message ([3aa7b02](https://github.com/Iroha1024/bigfun-pcr-extension/commit/3aa7b02bc508f6fefc697ea979b5fb8f9b13cf04))
+
+
+
 ## [0.3.6](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.5...v0.3.6) (2020-11-17)
 
 
