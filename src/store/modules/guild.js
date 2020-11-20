@@ -98,9 +98,10 @@ const guild = {
         },
         async getLeaderInfo({ commit }) {
             const {
-                data: { data },
+                data: {
+                    data: { leader_name },
+                },
             } = await getLeader()
-            const { leader_name } = data[0]
             commit('setLeaderName', leader_name)
         },
         async getBattleInfo({ dispatch, commit, state }) {
