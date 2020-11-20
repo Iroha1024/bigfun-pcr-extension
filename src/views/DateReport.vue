@@ -144,7 +144,7 @@ export default {
                                         </div>
                                         <span style="margin-right: 10px;">${
                                             seriesName == 'null'
-                                                ? '暂未出🔪'
+                                                ? '未出🔪'
                                                 : `${seriesName}: ${value[1].toLocaleString()}`
                                         }</span>
                                         <span style="color: #ef5f5f;">${

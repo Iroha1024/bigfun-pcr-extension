@@ -127,7 +127,16 @@ export default {
             if (this.isShowTip) {
                 this.$notification.open({
                     message: '小提示',
-                    description: '鼠标右键刷新数据，设置中鼠标滑轮上下滚动可切换会战期数',
+                    description(h) {
+                        return h('div', {}, [
+                            h('p', '鼠标右键可刷新数据'),
+                            h('p', '设置中鼠标滑轮上下滚动可切换会战期数'),
+                            h(
+                                'p',
+                                '切换会战时，若已离开当初公会，会出现一些错误（bigfun未提供相关数据）'
+                            ),
+                        ])
+                    },
                     duration: 0,
                     onClose: () => {
                         this.closeTip()
