@@ -101,13 +101,13 @@ export default {
             signal: (state) => state.signal,
         }),
         damage() {
-            return this.sortThenReturnValue((a, b) => b.damage - a.damage, 'damage')
+            return this.sortThenReturnValue('damage')
         },
         score() {
-            return this.sortThenReturnValue((a, b) => b.score - a.score, 'score')
+            return this.sortThenReturnValue('score')
         },
         rate() {
-            return this.sortThenReturnValue((a, b) => b.rate - a.rate, 'rate')
+            return this.sortThenReturnValue('rate')
         },
         ChallengeSum() {
             return this.guild.userReportData.find(({ name }) => name == this.username)?.number || 0
@@ -156,14 +156,16 @@ export default {
                 }
             })
         },
-        sortThenReturnValue(sort, property) {
+        sortThenReturnValue(property) {
             if (this.guild.userReportData.length < 1 || !this.username) {
                 return {
                     index: 0,
                     value: 0,
                 }
             }
-            const newArr = cloneDeep(this.guild.userReportData).sort(sort)
+            const newArr = cloneDeep(this.guild.userReportData).sort(
+                (a, b) => b[property] - a[property]
+            )
             const user = newArr.find(({ name }) => name == this.username)
             const index = newArr.indexOf(user) + 1
             const value = user[property]
