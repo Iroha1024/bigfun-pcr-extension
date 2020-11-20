@@ -2,7 +2,7 @@ const fs = require('fs')
 
 const path = 'CHANGELOG.md'
 
-let changelog = fs.readFileSync(path, { encoding: 'utf-8' })
+let changelog = fs.readFileSync(path, 'utf-8')
 
 const map = [['🐛', 'Bug Fixes'], ['✨', 'Features']]
 
