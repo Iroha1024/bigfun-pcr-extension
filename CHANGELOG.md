@@ -1,3 +1,12 @@
+## [0.3.8](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.7...v0.3.8) (2020-11-22)
+
+
+### ✨Features
+
+* 添加response拦截器 ([0e1c9da](https://github.com/Iroha1024/bigfun-pcr-extension/commit/0e1c9da42ae4aa7489d5c4c0df26a8d0c7a3c2ba))
+
+
+
 ## [0.3.7](https://github.com/Iroha1024/bigfun-pcr-extension/compare/v0.3.6...v0.3.7) (2020-11-20)
 
 
