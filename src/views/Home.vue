@@ -159,7 +159,11 @@ export default {
     methods: {
         async refresh() {
             this.loading = true
-            await this.$store.dispatch('guild/refreshDateReport')
+            try {
+                await this.$store.dispatch('guild/refreshDateReport')
+            } catch (error) {
+                await this.$message(error)
+            }
             this.loading = false
         },
         autoComplete() {
