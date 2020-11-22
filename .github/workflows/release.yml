@@ -1,0 +1,38 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Build project
+        run: |
+          rm -rf node_modules/
+          npm install
+          npm run build
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+      - name: Get Latest Tag
+        id: latest-tag
+        uses: WyriHaximus/github-action-get-previous-tag@1.0.0
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/bigfun-pcr-extension-${{ steps.latest-tag.outputs.tag }}-production.zip
+          asset_name: bigfun-pcr-extension-${{ steps.latest-tag.outputs.tag }}.zip
+          asset_content_type: application/zip
