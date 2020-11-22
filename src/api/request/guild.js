@@ -1,4 +1,4 @@
-import { instance } from '../axios'
+import { instance, config } from '../axios'
 
 //团队战排名
 
@@ -9,7 +9,7 @@ import { instance } from '../axios'
  */
 export const getBattleList = () => {
     const url = '/feweb?target=gzlj-clan-battle-list%2Fa'
-    return instance.get(url)
+    return instance.get(url, config)
 }
 
 /**
@@ -19,7 +19,7 @@ export const getBattleList = () => {
  */
 export const getLeader = () => {
     const url = '/feweb?target=gzlj-my-clan%2Fa'
-    return instance.get(url)
+    return instance.get(url, config)
 }
 
 // 公会日表
@@ -32,6 +32,7 @@ export const getLeader = () => {
 export const getGuildDailyReport = (battleId) => {
     const url = '/feweb?target=gzlj-clan-day-report-collect%2Fa'
     return instance.get(url, {
+        ...config,
         params: {
             battle_id: battleId,
         },
@@ -46,6 +47,7 @@ export const getGuildDailyReport = (battleId) => {
 export const getDateReport = (date, battleId) => {
     const url = '/feweb?target=gzlj-clan-day-report%2Fa'
     return instance.get(url, {
+        ...config,
         params: {
             date,
             page: 1,
@@ -65,6 +67,7 @@ export const getDateReport = (date, battleId) => {
 export const getBossReport = (battleId) => {
     const url = '/feweb?target=gzlj-clan-boss-report-collect%2Fa'
     return instance.get(url, {
+        ...config,
         params: {
             battle_id: battleId,
         },
@@ -81,5 +84,5 @@ export const getBossReport = (battleId) => {
 
 export const getRank = () => {
     const url = '/feweb?target=gzlj-clan-collect-report%2Fa'
-    return instance.get(url)
+    return instance.get(url, config)
 }

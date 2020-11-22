@@ -15,7 +15,6 @@
 
 <script>
 import { getSimilarString, dayjs } from '../utils/'
-import { getUser } from '../api/'
 
 import Echarts from '../components/Echarts'
 

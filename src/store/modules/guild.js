@@ -91,55 +91,47 @@ const guild = {
     },
     actions: {
         async getBattleListInfo({ commit }) {
-            const {
-                data: { data },
-            } = await getBattleList()
+            const { data } = await getBattleList()
             commit('setBattleList', data)
         },
         async getLeaderInfo({ commit }) {
             const {
-                data: {
-                    data: { leader_name },
-                },
+                data: { leader_name },
             } = await getLeader()
+            if (leader_name == undefined) {
+                return Promise.reject({
+                    type: 'error',
+                    msg: '获取会长名称失败，请稍后刷新重试',
+                })
+            }
             commit('setLeaderName', leader_name)
         },
         async getBattleInfo({ dispatch, commit, state }) {
-            const { data } = await getGuildDailyReport(state.currentBattleId)
-            const { code, message } = data
-            if (code == 1) {
+            const data = await getGuildDailyReport(state.currentBattleId)
+            try {
+                const {
+                    data: {
+                        battle_info: { name: constellationName },
+                        clan_info: { name: guildName },
+                        day_list,
+                    },
+                } = data
+                commit('setConstellationName', constellationName)
+                commit('setGuildName', guildName)
+                commit('setDateList', day_list)
+                commit('setVaildDateList')
+            } catch {
                 return Promise.reject({
                     type: 'error',
-                    msg: message,
+                    msg: '当前公会战信息未公开',
                 })
-            } else if (code == 0) {
-                try {
-                    const {
-                        data: {
-                            battle_info: { name: constellationName },
-                            clan_info: { name: guildName },
-                            day_list,
-                        },
-                    } = data
-                    commit('setConstellationName', constellationName)
-                    commit('setGuildName', guildName)
-                    commit('setDateList', day_list)
-                    commit('setVaildDateList')
-                } catch {
-                    return Promise.reject({
-                        type: 'error',
-                        msg: '当前公会战信息未公开',
-                    })
-                }
             }
             await dispatch('getRankInfo')
         },
         async getRankInfo({ commit, state }) {
             const {
                 data: {
-                    data: {
-                        clan: { all_ranking },
-                    },
+                    clan: { all_ranking },
                 },
             } = await getRank()
             const battle = all_ranking.find(
@@ -151,9 +143,7 @@ const guild = {
         },
         async getBossReportInfo({ commit, state }) {
             const {
-                data: {
-                    data: { boss_list },
-                },
+                data: { boss_list },
             } = await getBossReport(state.currentBattleId)
             commit('setBossList', boss_list)
         },
@@ -164,9 +154,7 @@ const guild = {
                 const promise = getDateReport(date, state.currentBattleId)
                 list.push(promise)
                 promise.then((res) => {
-                    const {
-                        data: { data },
-                    } = res
+                    const { data } = res
                     commit('setDateReport', { key: date, value: data })
                 })
             }
@@ -178,9 +166,8 @@ const guild = {
             const date = formatDate(getTrueDate())
             if (!state.vaildDateList.includes(date)) return
             await dispatch('getRankInfo')
-            const {
-                data: { data },
-            } = await getDateReport(date, state.currentBattleId)
+            await dispatch('getLeaderInfo')
+            const { data } = await getDateReport(date, state.currentBattleId)
             commit('setDateReport', { key: date, value: data })
             commit('setUserReportData')
         },

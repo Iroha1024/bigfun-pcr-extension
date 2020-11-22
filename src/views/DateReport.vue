@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getDateReport, getBossReport } from '../api/'
+import { getDateReport } from '../api/'
 import { isSameDate, getSimilarString, getMaxDate, formatDate, getTrueDate } from '../utils/'
 
 import Echarts from '../components/Echarts'
@@ -54,9 +54,7 @@ export default {
             }
         },
         async getDateReportInfo() {
-            const {
-                data: { data },
-            } = await getDateReport(this.currentDate, this.guild.currentBattleId)
+            const { data } = await getDateReport(this.currentDate, this.guild.currentBattleId)
             this.$store.commit('guild/setDateReport', {
                 key: this.currentDate,
                 value: data,

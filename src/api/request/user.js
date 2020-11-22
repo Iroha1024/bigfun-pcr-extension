@@ -1,4 +1,4 @@
-import { instance } from '../axios'
+import { instance, config } from '../axios'
 
 // 首页
 
@@ -9,5 +9,5 @@ import { instance } from '../axios'
  */
 export const getUser = () => {
     const url = '/feweb?target=get-gzlj-user-info%2Fa&flush_user_info=0'
-    return instance.get(url)
+    return instance.get(url, config)
 }

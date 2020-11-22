@@ -6,7 +6,7 @@
         </div>
         <div class="version">
             <p>当前版本：{{ version }}</p>
-            <p>最新版本：{{ latestVer }}</p>
+            <p>最新版本：{{ latestVersion }}</p>
             <a-button type="primary" icon="download" :disabled="disabled" @click="download">
                 下载
             </a-button>
@@ -29,7 +29,7 @@ import 'github-markdown-css'
 export default {
     data() {
         return {
-            latestVer: '0.0.0',
+            latestVersion: '0.0.0',
             downloadUrl: '',
             assetName: '',
             changelog: '',
@@ -37,17 +37,15 @@ export default {
     },
     async created() {
         try {
-            const {
-                data: { tag_name, assets },
-            } = await getLatestRelease()
+            const { tag_name, assets } = await getLatestRelease()
             const { browser_download_url, name } = assets[0]
-            this.latestVer = tag_name
+            this.latestVersion = tag_name
             this.downloadUrl = browser_download_url
             this.assetName = name
-            const { data } = await getChangelog()
+            const data = await getChangelog()
             this.changelog = data
         } catch {
-            this.$message({ type: 'warning', msg: '获取github信息失败，请稍后重试' })
+            this.$message({ type: 'warning', msg: '获取github信息失败，请稍后刷新重试' })
         }
     },
     computed: {
@@ -55,7 +53,7 @@ export default {
             return `v${pkg.version}`
         },
         disabled() {
-            return !this.downloadUrl || this.version == this.latestVer
+            return !this.downloadUrl || this.version == this.latestVersion
         },
     },
     methods: {

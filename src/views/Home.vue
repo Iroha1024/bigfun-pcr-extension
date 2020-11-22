@@ -114,8 +114,12 @@ export default {
                     this.loading = false
                     return
                 }
+                try {
+                    await this.$store.dispatch('guild/getLeaderInfo')
+                } catch (error) {
+                    await this.$message(error)
+                }
                 await Promise.all([
-                    this.$store.dispatch('guild/getLeaderInfo'),
                     this.$store.dispatch('guild/getBossReportInfo'),
                     this.$store.dispatch('guild/getDateReportInfo'),
                     this.$store.dispatch('storage/getStorage', ['autoComplete', 'showTitleTip']),
