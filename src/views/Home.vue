@@ -192,6 +192,9 @@ export default {
     .title {
         font-size: 22px;
     }
+    & /deep/ .ant-modal-header {
+        border-bottom: 0;
+    }
     & /deep/ .ant-modal-body {
         padding-top: 0;
     }
