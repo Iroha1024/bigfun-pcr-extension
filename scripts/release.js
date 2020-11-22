@@ -2,19 +2,37 @@ const fs = require('fs')
 const execa = require('execa')
 const chalk = require('chalk')
 
-const path = 'package.json'
 const args = process.argv.slice(2)
-const pkg = JSON.parse(fs.readFileSync(path, 'utf-8'))
-
 const releaseVersion = args[0]
 
-pkg.version = releaseVersion
+const tip = msg => console.log(chalk.cyan(msg + '\n'))
 
-fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n')
+function updatePackage(version) {
+    tip(`update v${version}...`);
+    const pkgPath = 'package.json'
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    pkg.version = version
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+}
 
-execa.sync('npm run changelog')
-console.log(chalk.blue(`update v${releaseVersion}`));
+function updateChangelog() {
+    tip('update changelog...');
+    const { stdout } = execa.sync('npm run changelog')
+    console.log(stdout);
+}
 
-execa.sync('git add .')
-execa.sync('git', ['commit', '-m', `update v${releaseVersion}`])
-console.log(chalk.blue('git commit'));
+function gitPush(version) {
+    tip('git commit...')
+    execa.sync('git add .')
+    execa.sync('git', ['commit', '-m', `update v${version}`])
+    execa.sync('git', ['tag', `v${version}`])
+    execa.sync('git', ['push', 'origin', `v${version}`])
+    execa.sync('git push')
+    tip('git push')
+}
+
+
+updatePackage(releaseVersion)
+updateChangelog()
+gitPush(releaseVersion)
+
