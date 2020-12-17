@@ -1,8 +1,12 @@
 ## bigfun-pcr-extension
 
-> 利用bigfun pcr数据，提供数据图表、导出个人报表等功能（chrome extension）
 
 
+### bigfun  web端网页不再实时更新数据  （真有你的喔bigfun😅）
+
+
+
+> ~~利用bigfun pcr数据，提供数据图表、导出个人报表等功能（chrome extension）~~
 
 ![](./example/report.png)
 
